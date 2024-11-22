@@ -33,7 +33,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 // Routes imports
-
+import adminRoutes from "../routes/admin.routes.js";
 
 // Server initialize constants
 const app = express();
@@ -50,6 +50,7 @@ app.use(express.json());
 // Global vars
 
 // Routes
+app.use('/api/admin', adminRoutes);
 
 // Non founded route manage
 app.use((req, res) => res.status(404).send("Endpoint no encontrado - 404"));

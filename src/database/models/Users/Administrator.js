@@ -1,4 +1,5 @@
 import {model, Schema} from 'mongoose';
+import bcrypt from "bcryptjs";
 
 const administradorSchema = new Schema({
   nombre: {
