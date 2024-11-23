@@ -4,28 +4,54 @@ import Usuario from "../database/models/Users/User.js"
 import OrdenCompra from "../database/models/Actions/OrdenCompra.js";
 import Administrador from "../database/models/Users/Administrator.js";
 import {sendMailToAdmin, sendRecoveryPassword_AdminEmail} from '../config/nodemailer.js';
-import cloudinary from "../services/cloudinary.js";
 import jwt from "jsonwebtoken";
+import cloudinary from "../services/cloudinary.js";
 
 // ** Crear Producto **
 export const crearProducto = async (req, res) => {
     try {
-        const { nombre, descripcion, precio, stock } = req.body;
-        const image = req.file ? req.file.path : null;
+        const { nombre, descripcion, precio } = req.body;
+        let imagenUrl = null;
 
+        // Verificar si ya existe un producto con el mismo nombre (puedes agregar más validaciones si es necesario)
+        const productoExistente = await Product.findOne({ nombre });
+        if (productoExistente) {
+            return res.status(400).json({ msg: 'El producto con este nombre ya existe.' });
+        }
+
+        // Crear el nuevo producto sin la imagen inicialmente
         const nuevoProducto = new Product({
             nombre,
             descripcion,
             precio,
-            stock,
-            imagen: image,
+            imagen: null, // Sin imagen al principio
         });
 
+        // Guardar el nuevo producto en la base de datos para generar el _id
         await nuevoProducto.save();
-        res.status(201).json({ msg: "Producto creado exitosamente", producto: nuevoProducto });
+
+        // Si hay una imagen en la solicitud, sube la imagen a Cloudinary
+        if (req.file) {
+            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `productos/${nuevoProducto._id}`, // Usar el _id generado por MongoDB
+                overwrite: true, // Sobrescribir si ya existe una imagen con ese nombre
+            });
+
+            // La URL de la imagen será la URL proporcionada por Cloudinary
+            imagenUrl = uploadResponse.secure_url;
+
+            // Actualizar el producto con la URL de la imagen
+            nuevoProducto.imagen = imagenUrl;
+            await nuevoProducto.save();  // Guardar el producto nuevamente con la URL de la imagen
+        } else {
+            return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
+        }
+
+        // Devolver la respuesta con el producto creado
+        res.status(201).json({ msg: 'Producto creado exitosamente', producto: nuevoProducto });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: "Error al crear producto" });
+        res.status(500).json({ msg: 'Error al crear producto' });
     }
 };
 
@@ -33,27 +59,41 @@ export const crearProducto = async (req, res) => {
 export const actualizarProducto = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, descripcion, precio, stock } = req.body;
-        const image = req.file ? req.file.path : null;
+        const { nombre, descripcion, precio } = req.body;
+        let imagenUrl = null;
 
+        // Buscar el producto por ID
         const productoExistente = await Product.findById(id);
         if (!productoExistente) {
             return res.status(404).json({ msg: "Producto no encontrado" });
         }
 
+        // Actualizar los campos que se pasen
         productoExistente.nombre = nombre || productoExistente.nombre;
         productoExistente.descripcion = descripcion || productoExistente.descripcion;
         productoExistente.precio = precio || productoExistente.precio;
-        productoExistente.stock = stock || productoExistente.stock;
-        if (image) productoExistente.imagen = image;
 
+        // Si se sube una nueva imagen, la subimos a Cloudinary
+        if (req.file) {
+            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `cuenta_me/productos/${id}`,  // Usamos el ID del producto como parte del nombre
+                overwrite: true,
+            });
+            imagenUrl = uploadResponse.secure_url;
+            productoExistente.imagen = imagenUrl;
+        }
+
+        // Guardar el producto actualizado
         await productoExistente.save();
+
+        // Responder con el producto actualizado
         res.status(200).json({ msg: "Producto actualizado exitosamente", producto: productoExistente });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Error al actualizar producto" });
     }
 };
+
 
 // ** Eliminar Producto **
 export const eliminarProducto = async (req, res) => {
@@ -87,44 +127,107 @@ export const listadoProductos = async (req, res) => {
 // ** Crear Caja **
 export const crearCaja = async (req, res) => {
     try {
-        const { nombre, descripcion, precio, stock } = req.body;
-        const image = req.file ? req.file.path : null;
+        const { nombre, tipo, dimensiones, colores, decorado, extras } = req.body;
+        let imagenUrl = null;
 
+        // Verificar si ya existe una caja con el mismo nombre
+        const cajaExistente = await Caja.findOne({ nombre });
+        if (cajaExistente) {
+            return res.status(400).json({ msg: 'La caja con este nombre ya existe.' });
+        }
+
+        // Verificar si la caja es personalizable y si tiene los campos necesarios
+        if (tipo === 'personalizable') {
+            if (!dimensiones) {
+                return res.status(400).json({ msg: 'Las dimensiones son obligatorias para cajas personalizables.' });
+            }
+            if (!colores) {
+                return res.status(400).json({ msg: 'Los colores son obligatorios para cajas personalizables.' });
+            }
+            if (!decorado) {
+                return res.status(400).json({ msg: 'El campo decorado es obligatorio para cajas personalizables.' });
+            }
+        }
+
+        // Crear la nueva caja sin la imagen inicialmente
         const nuevaCaja = new Caja({
             nombre,
-            descripcion,
-            precio,
-            stock,
-            imagen: image,
+            tipo,
+            dimensiones,
+            colores,
+            decorado,
+            extras,
+            totalPrecio: 0.00,
+            imagen: null,  // Sin imagen al principio
         });
 
+        // Guardar la nueva caja en la base de datos para generar el _id
         await nuevaCaja.save();
-        res.status(201).json({ msg: "Caja creada exitosamente", caja: nuevaCaja });
+
+        // Si se proporciona una imagen, subirla a Cloudinary
+        if (req.file) {
+            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `cajas/${nuevaCaja._id}`,  // Usar el _id generado por MongoDB
+                overwrite: true,  // Sobrescribir si ya existe una imagen con ese nombre
+            });
+
+            // La URL de la imagen será la URL proporcionada por Cloudinary
+            imagenUrl = uploadResponse.secure_url;
+
+            // Actualizar la caja con la URL de la imagen
+            nuevaCaja.imagen = imagenUrl;
+            await nuevaCaja.save();  // Guardar el producto nuevamente con la URL de la imagen
+        } else {
+            return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
+        }
+
+        // Responder con la caja creada y su imagen
+        res.status(201).json({ msg: 'Caja creada exitosamente', caja: nuevaCaja });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: "Error al crear caja" });
+        res.status(500).json({ msg: 'Error al crear caja' });
     }
 };
+
 
 // ** Actualizar Caja **
 export const actualizarCaja = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, descripcion, precio, stock } = req.body;
-        const image = req.file ? req.file.path : null;
+        const { nombre, descripcion, precioBase, stock } = req.body;
+        let imagenUrl = null;
 
+        // Buscar la caja por ID
         const cajaExistente = await Caja.findById(id);
         if (!cajaExistente) {
             return res.status(404).json({ msg: "Caja no encontrada" });
         }
 
+        // Verificar si la caja es predefinida antes de permitir la actualización
+        if (cajaExistente.tipo !== 'predefinida') {
+            return res.status(400).json({ msg: "Solo las cajas predefinidas pueden ser actualizadas" });
+        }
+
+        // Actualizar los campos
         cajaExistente.nombre = nombre || cajaExistente.nombre;
         cajaExistente.descripcion = descripcion || cajaExistente.descripcion;
-        cajaExistente.precio = precio || cajaExistente.precio;
+        cajaExistente.precioBase = precioBase || cajaExistente.precioBase;
         cajaExistente.stock = stock || cajaExistente.stock;
-        if (image) cajaExistente.imagen = image;
 
+        // Si se sube una nueva imagen, subirla a Cloudinary
+        if (req.file) {
+            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `cajas/${id}`,  // Usamos el ID de la caja como nombre
+                overwrite: true,
+            });
+            imagenUrl = uploadResponse.secure_url;
+            cajaExistente.imagen = imagenUrl;
+        }
+
+        // Guardar la caja actualizada
         await cajaExistente.save();
+
+        // Responder con la caja actualizada
         res.status(200).json({ msg: "Caja actualizada exitosamente", caja: cajaExistente });
     } catch (error) {
         console.error(error);
@@ -215,41 +318,36 @@ export const verPerfil = (req, res) => {
 // ** Iniciar sesión **
 export const login = async (req, res) => {
     try {
-        // Extrae el correo y password de la solicitud
         const { correo, password } = req.body;
 
-        // Verifica si algún campo del cuerpo de la solicitud está vacío
         if (Object.values(req.body).includes("")) {
-            return res.status(404).json({ msg: "Lo sentimos, debes llenar todos los campos" });
+            return res.status(400).json({ msg: "Lo sentimos, debes llenar todos los campos" });
         }
 
-        // Busca un administrador en la base de datos por su correo
-        const adminBDD = await Administrador.findOne({ correo }).select("-status -__v -token -updatedAt -createdAt");
+        const adminBDD = await Administrador.findOne({ correo }).select("-status -__v -updatedAt -createdAt");
 
-        // Verifica si no se encontró ningún administrador con el correo proporcionado
         if (!adminBDD) {
-            return res.status(404).json({ msg: "Lo sentimos, correo o contraseña incorrectos" });
+            return res.status(404).json({ msg: "Lo sentimos, el administrador no existe." });
         }
 
-        // Verifica si la contraseña proporcionada no coincide con la almacenada en la base de datos
         const verificarPassword = await adminBDD.matchPassword(password);
         if (!verificarPassword) {
-            return res.status(404).json({ msg: "Lo sentimos, correo o contraseña incorrectos" });
+            return res.status(400).json({ msg: "Lo sentimos, correo o contraseña incorrectos" });
         }
 
-        // Verifica si el administrador no ha confirmado su correo
         if (adminBDD.confirmEmail === false) {
             return res.status(403).json({ msg: "Lo sentimos, debe verificar su cuenta" });
         }
 
-        // Genera un token JWT para el administrador autenticado
         const payload = { id: adminBDD._id, rol: adminBDD.rol };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-        // Extrae algunos campos del administrador para la respuesta
+        // Guardar el token en la base de datos
+        adminBDD.token = token;
+        await adminBDD.save();
+
         const { nombre, telefono, _id } = adminBDD;
 
-        // Responde con el token JWT y la información del administrador
         res.status(200).json({
             token,
             nombre,
@@ -262,7 +360,7 @@ export const login = async (req, res) => {
         console.error(error);
         res.status(500).json({ msg: "Error al iniciar sesión" });
     }
-}
+};
 
 // ** Registarse **
 export const registrarse = async (req, res) => {

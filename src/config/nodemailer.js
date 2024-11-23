@@ -74,7 +74,7 @@ const sendMailToAdmin = async (userMail, token) => {
         <hr/>
         <h5>Activa tu cuenta de Administrador</h5>
         <hr/>
-        <a href="${process.env.URL_FRONTEND}/confirmar/${token}">Clic para confirmar tu cuenta</a>
+        <a href="${process.env.BACKEND_URL}/api/admin/confirmar/${token}">Clic para confirmar tu cuenta</a>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
       `,
@@ -97,7 +97,7 @@ const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
         <hr>
         <h5>Recuperación de Contraseña | Administrador</h5>
         <hr>
-        <a href="${process.env.URL_FRONTEND}/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
+        <a href="${process.env.BACKEND_URL}/api/admin/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
       `,

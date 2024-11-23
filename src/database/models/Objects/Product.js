@@ -4,6 +4,7 @@ const productoSchema = new Schema({
   nombre: {
     type: String,
     required: true,
+    unique: true,
   },
   descripcion: String,
   precio: {
@@ -12,12 +13,8 @@ const productoSchema = new Schema({
   },
   imagen: {
     type: String,
-    required: true, // Ruta de la imagen en Cloudinary (la URL será la proporcionada por Cloudinary)
-  },
-  categoria: {
-    type: String,
-    enum: ['predefinido', 'personalizable'],
-    required: true,
+    required: false,
+    default: null// Ruta de la imagen en Cloudinary (la URL será la proporcionada por Cloudinary)
   },
 });
 
