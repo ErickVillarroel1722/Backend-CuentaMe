@@ -7,7 +7,7 @@ mongoose.set('strictQuery', true)
 
 const connection = async() => {
   try{
-    const {connection} = await mongoose.connect(MONGO_URI || ATLAS_URI)
+    const {connection} = await mongoose.connect(ATLAS_URI || MONGO_URI)
     console.log(`Database has established on MongoDB server as ${connection.host} - ${connection.port}`)
     console.log("-----------------------------------------------------------------------\n")
   }

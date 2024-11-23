@@ -15,10 +15,12 @@ import {
     login,
     registrarse,
     confirmarEmail,
-    recuperarContrasena
+    recuperarContrasena,
+    comprobarTokenContrasena,
+    nuevaContrasena
 } from '../controller/adminController.js';
 
-import { verifyToken } from '../middleware/authService.js';  // Middleware para verificar token
+import verificarAutenticacion from '../middleware/authService.js';
 import upload from '../middleware/uploadService.js';  // Middleware para subir imágenes
 
 const router = express.Router();
@@ -35,52 +37,57 @@ router.post('/registrarse', registrarse);
 router.get("/confirmar/:token", confirmarEmail);  // Ruta para confirmar el email
 
 // Recuperar contraseña
-router.post('/recuperar-contraseña', recuperarContrasena);
+router.post('/recuperar-password', recuperarContrasena);
+
+// Verificación de Token de acceso para permitir cambio de clave
+router.get("/recuperar-password/:token", comprobarTokenContrasena);
+
+// Reescritura de contraseña
+router.post("/nuevo-password/:token", nuevaContrasena);
 
 // ** Rutas protegidas (requieren autenticación de administrador) **
 
 // Ver perfil del administrador
-router.get('/perfil', verifyToken, verPerfil);
+router.get('/perfil', verificarAutenticacion, verPerfil);
 
 // ** Rutas de productos **
-
 // Crear un nuevo producto (requiere imagen)
-router.post('/producto', verifyToken, upload.single('imagen'), crearProducto);
+router.post('/producto', verificarAutenticacion, upload.single('imagen'), crearProducto);
 
 // Actualizar producto existente (requiere imagen)
-router.put('/producto/:id', verifyToken, upload.single('imagen'), actualizarProducto);
+router.put('/producto/:id', verificarAutenticacion, upload.single('imagen'), actualizarProducto);
 
 // Eliminar producto
-router.delete('/producto/:id', verifyToken, eliminarProducto);
+router.delete('/producto/:id', verificarAutenticacion, eliminarProducto);
 
 // Listado de productos
-router.get('/productos', verifyToken, listadoProductos);
+router.get('/productos', verificarAutenticacion, listadoProductos);
 
 // ** Rutas de cajas **
 
 // Crear una nueva caja (requiere imagen)
-router.post('/caja', verifyToken, upload.single('imagen'), crearCaja);
+router.post('/caja', verificarAutenticacion, upload.single('imagen'), crearCaja);
 
 // Actualizar caja existente (requiere imagen)
-router.put('/caja/:id', verifyToken, upload.single('imagen'), actualizarCaja);
+router.put('/caja/:id', verificarAutenticacion, upload.single('imagen'), actualizarCaja);
 
 // Eliminar caja
-router.delete('/caja/:id', verifyToken, eliminarCaja);
+router.delete('/caja/:id', verificarAutenticacion, eliminarCaja);
 
 // Listado de cajas
-router.get('/cajas', verifyToken, listadoCajas);
+router.get('/cajas', verificarAutenticacion, listadoCajas);
 
 // ** Rutas de clientes (usuarios) **
 
 // Listado de clientes
-router.get('/clientes', verifyToken, listadoClientes);
+router.get('/clientes', verificarAutenticacion, listadoClientes);
 
 // Eliminar cliente
-router.delete('/cliente/:id', verifyToken, eliminarCliente);
+router.delete('/cliente/:id', verificarAutenticacion, eliminarCliente);
 
 // ** Rutas de órdenes de compra **
 
 // Listado de órdenes de compra
-router.get('/ordenes', verifyToken, listadoOrdenesCompra);
+router.get('/ordenes', verificarAutenticacion, listadoOrdenesCompra);
 
 export default router;

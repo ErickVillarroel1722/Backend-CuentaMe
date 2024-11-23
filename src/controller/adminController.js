@@ -3,7 +3,7 @@ import Caja from "../database/models/Objects/Box.js"
 import Usuario from "../database/models/Users/User.js"
 import OrdenCompra from "../database/models/Actions/OrdenCompra.js";
 import Administrador from "../database/models/Users/Administrator.js";
-import { sendMailToAdmin } from '../config/nodemailer.js';
+import {sendMailToAdmin, sendRecoveryPassword_AdminEmail} from '../config/nodemailer.js';
 import cloudinary from "../services/cloudinary.js";
 import jwt from "jsonwebtoken";
 
@@ -202,15 +202,12 @@ export const listadoOrdenesCompra = async (req, res) => {
 };
 
 // ** Ver Perfil de Administrador **
-export const verPerfil = async (req, res) => {
+export const verPerfil = (req, res) => {
     try {
-        const admin = await Administrador.findById(req.user.id);
-        if (!admin) {
-            return res.status(404).json({ msg: "Administrador no encontrado" });
-        }
+        const admin = req.user; // El administrador ya está en req.user gracias al middleware
         res.status(200).json({ perfil: admin });
     } catch (error) {
-        console.error(error);
+        console.error("Error al obtener perfil:", error);
         res.status(500).json({ msg: "Error al obtener perfil de administrador" });
     }
 };
@@ -354,18 +351,99 @@ export const confirmarEmail = async (req, res) => {
 
 // ** Recuperar Contraseña **
 export const recuperarContrasena = async (req, res) => {
-    const { correo } = req.body;
+    const { correo } = req.body; // Extrae el email de la solicitud
+
+    console.log("Email recibido:", correo); // Verifica que el email se reciba correctamente
+
+    // Validar que no haya campos vacíos
+    if (Object.values(req.body).includes("")) {
+        return res.status(404).json({ msg: "Lo sentimos, debes llenar todos los campos" });
+    }
+
     try {
-        const admin = await Administrador.findOne({ correo });
-        if (!admin) {
-            return res.status(404).json({ msg: "Administrador no encontrado" });
+        // Buscar al administrador en la base de datos por email
+        const adminBDD = await Administrador.findOne({ correo });
+
+        // Verificar si no se encontró el administrador
+        if (!adminBDD) {
+            return res.status(404).json({ msg: "Lo sentimos, correo incorrecto o no se encuentra registrado" });
         }
 
-        // Aquí puedes agregar la lógica para enviar un correo con el link para recuperar la contraseña
+        // Generar token para la recuperación de contraseña
+        const token = adminBDD.crearToken();
+        adminBDD.token = token;
 
-        res.status(200).json({ msg: "Te hemos enviado un correo para recuperar tu contraseña" });
+        // Enviar correo electrónico con el token de recuperación
+        await sendRecoveryPassword_AdminEmail(correo, token);  // Revisa si el email es correcto aquí
+        await adminBDD.save();
+
+        // Responder con un mensaje
+        res.status(200).json({ msg: "Revisa tu correo electrónico para restablecer tu cuenta" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: "Error al recuperar contraseña" });
+        res.status(500).json({ msg: "Error al procesar la solicitud" });
+    }
+};
+
+// Confirmación de Token para recuperación de contraseña
+export const comprobarTokenContrasena = async (req, res) => {
+    const { token } = req.params; // Extrae el token de los parámetros de la solicitud
+
+    // Validar si no se proporcionó el token
+    if (!token) {
+        return res.status(404).json({ msg: "Lo sentimos, no se puede validar la cuenta" });
+    }
+
+    try {
+        // Buscar al administrador en la base de datos por token
+        const adminBDD = await Administrador.findOne({ token });
+
+        // Verificar si el token proporcionado coincide
+        if (adminBDD?.token !== token) {
+            return res.status(404).json({ msg: "Lo sentimos, no se puede validar la cuenta" });
+        }
+
+        // Responder con mensaje de confirmación
+        res.status(200).json({ msg: "Token confirmado, ya puedes crear tu nueva contraseña" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error al verificar el token" });
+    }
+};
+
+// Cambio de contraseña mediante evaluación del token de acceso
+export const nuevaContrasena = async (req, res) => {
+    const { password, confirmpassword } = req.body; // Extrae la nueva contraseña y la confirmación
+    const { token } = req.params; // Extrae el token de los parámetros de la solicitud
+
+    // Validar que no haya campos vacíos
+    if (Object.values(req.body).includes("")) {
+        return res.status(404).json({ msg: "Lo sentimos, debes llenar todos los campos" });
+    }
+
+    // Validar que las contraseñas coincidan
+    if (password !== confirmpassword) {
+        return res.status(404).json({ msg: "Lo sentimos, las contraseñas no coinciden" });
+    }
+
+    try {
+        // Buscar al administrador en la base de datos por token
+        const adminBDD = await Administrador.findOne({ token });
+
+        // Verificar si el token proporcionado coincide
+        if (adminBDD?.token !== token) {
+            return res.status(404).json({ msg: "Lo sentimos, no se puede validar la cuenta" });
+        }
+
+        // Actualizar la contraseña y borrar el token
+        adminBDD.token = null;
+        adminBDD.password = await adminBDD.encrypPassword(password); // Encriptar la nueva contraseña
+        await adminBDD.save();
+
+        // Responder con mensaje de éxito
+        res.status(200).json({ msg: "Felicitaciones, ya puedes iniciar sesión con tu nueva contraseña" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error al cambiar la contraseña" });
     }
 };
