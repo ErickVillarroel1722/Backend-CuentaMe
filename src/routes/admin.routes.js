@@ -14,7 +14,8 @@ import {
     verPerfil,
     login,
     registrarse,
-    recuperarContraseña
+    confirmarEmail,
+    recuperarContrasena
 } from '../controller/adminController.js';
 
 import { verifyToken } from '../middleware/authService.js';  // Middleware para verificar token
@@ -30,8 +31,11 @@ router.post('/login', login);
 // Registro de administrador
 router.post('/registrarse', registrarse);
 
+// Confirmar email
+router.get("/confirmar/:token", confirmarEmail);  // Ruta para confirmar el email
+
 // Recuperar contraseña
-router.post('/recuperar-contraseña', recuperarContraseña);
+router.post('/recuperar-contraseña', recuperarContrasena);
 
 // ** Rutas protegidas (requieren autenticación de administrador) **
 
@@ -74,7 +78,7 @@ router.get('/clientes', verifyToken, listadoClientes);
 // Eliminar cliente
 router.delete('/cliente/:id', verifyToken, eliminarCliente);
 
-// ** Rutas de ordenes de compra **
+// ** Rutas de órdenes de compra **
 
 // Listado de órdenes de compra
 router.get('/ordenes', verifyToken, listadoOrdenesCompra);

@@ -1,47 +1,74 @@
 import nodemailer from 'nodemailer';
-import User from '../database/models/Users/User.js';
-import Administrator from '../database/models/Users/Administrator.js';
+import { google } from 'googleapis';
+import dotenv from 'dotenv';
 
-// Configuración del transporter para el envío de correos
-let transporter = nodemailer.createTransport({
-  service: 'gmail',  // Usando Gmail como servicio SMTP
-  host: process.env.SMTP_SERVICE,
-  port: process.env.SMTP_PORT,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-  debug: true,
-});
+dotenv.config();
 
-// Función principal para enviar correos
-const sendMail = async (destinatario, asunto, mensaje) => {
+// Configuración de credenciales oAuth2
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const SMTP_USER = process.env.SMTP_USER;
+
+if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN || !SMTP_USER) {
+  console.error('Error: Faltan configuraciones en las variables de entorno.');
+  throw new Error('Configuraciones de entorno faltantes o inválidas');
+}
+
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+const createTransporter = async () => {
   try {
-    const info = await transporter.sendMail({
-      from: 'tu_correo@gmail.com',  // Dirección de correo del remitente
-      to: destinatario,  // Dirección de correo del destinatario
-      subject: asunto,
-      text: mensaje,
-    });
+    const accessTokenResponse = await oAuth2Client.getAccessToken();
+    const accessToken = accessTokenResponse?.token;
 
-    console.log('Correo enviado: %s', info.messageId);
-  } catch (e) {
-    console.error('Error al enviar correo: ', e);
+    if (!accessToken) {
+      throw new Error('No se pudo obtener un token de acceso. Verifica el Refresh Token.');
+    }
+
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: SMTP_USER,
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+  } catch (error) {
+    console.error('Error al crear el transporter: ', error);
+    throw error;
   }
 };
 
-// ------------------------------------------------------------------------------------------ Apartado para envío de correos
+// Funciones para envío de correos
+const sendMail = async (destinatario, asunto, mensaje) => {
+  try {
+    const transporter = await createTransporter();
+    const info = await transporter.sendMail({
+      from: `Cuenta-Me <${SMTP_USER}>`,
+      to: destinatario,
+      subject: asunto,
+      html: `<p>${mensaje}</p>`,
+    });
 
-// -------> Correo para Administrador
+    console.log('Correo enviado: %s', info.messageId);
+  } catch (error) {
+    console.error('Error al enviar correo: ', error);
+  }
+};
 
-// Correo para enviar la verificación de token
 const sendMailToAdmin = async (userMail, token) => {
   try {
-    let info = await transporter.sendMail({
-      from: 'info@cuentame.com',  // Dirección de correo electrónico del remitente
-      to: userMail,  // Dirección de correo electrónico del destinatario
-      subject: "Cuenta-me | Verifica tu cuenta de correo electrónico",  // Asunto del correo
+    const transporter = await createTransporter();
+    const info = await transporter.sendMail({
+      from: `Cuenta-Me <${SMTP_USER}>`,
+      to: userMail,
+      subject: "Cuenta-me | Verifica tu cuenta de correo electrónico",
       html: `
         <h1>Cuenta-Me - Regalos Handmade</h1>
         <hr/>
@@ -50,19 +77,19 @@ const sendMailToAdmin = async (userMail, token) => {
         <a href="${process.env.URL_FRONTEND}/confirmar/${token}">Clic para confirmar tu cuenta</a>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
-      `
+      `,
     });
-    console.log("Mensaje enviado satisfactoriamente: ", info.messageId);  // Imprime el ID del mensaje enviado
+    console.log("Mensaje enviado satisfactoriamente: ", info.messageId);
   } catch (error) {
     console.error('Error al enviar el correo de confirmación:', error);
   }
 };
 
-// Correo para enviar la recuperación de contraseña
 const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
   try {
-    let info = await transporter.sendMail({
-      from: 'admin@cuentame.com',
+    const transporter = await createTransporter();
+    const info = await transporter.sendMail({
+      from: `Cuenta-Me <${SMTP_USER}>`,
       to: userMail,
       subject: "Correo para reestablecer tu contraseña",
       html: `
@@ -73,7 +100,7 @@ const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
         <a href="${process.env.URL_FRONTEND}/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
-      `
+      `,
     });
     console.log("Mensaje enviado satisfactoriamente: ", info.messageId);
   } catch (error) {
@@ -81,11 +108,8 @@ const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
   }
 };
 
-// -------> Aquí agregarías otros correos si es necesario para Usuarios u otros roles
-
-// Exportamos las funciones para que se puedan usar en otros archivos
 export {
   sendMail,
   sendMailToAdmin,
-  sendRecoveryPassword_AdminEmail
+  sendRecoveryPassword_AdminEmail,
 };

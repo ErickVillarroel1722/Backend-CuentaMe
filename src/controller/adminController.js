@@ -315,8 +315,45 @@ export const registrarse = async (req, res) => {
     }
 };
 
+// **Confirmar correo electrónico**
+export const confirmarEmail = async (req, res) => {
+    try {
+        console.log("Comenzando confirmación de token");
+
+        // Verifica si no se proporcionó un token en los parámetros de la solicitud
+        const { token } = req.params;
+        if (!token) {
+            return res.status(400).json({ msg: "Lo sentimos, no se puede validar la cuenta" });
+        }
+
+        console.log("Buscando administrador mediante token");
+
+        // Busca un administrador en la base de datos por el token proporcionado
+        const adminBDD = await Administrador.findOne({ token });
+
+        // Verifica si no se encontró ningún administrador con el token proporcionado
+        if (!adminBDD) {
+            return res.status(404).json({ msg: "La cuenta ya ha sido confirmada o el token no es válido" });
+        }
+
+        // Actualiza el token y el estado de confirmación de la cuenta del administrador
+        adminBDD.token = null;
+        adminBDD.confirmEmail = true;
+        await adminBDD.save();
+
+        console.log("Confirmación modificada en la base de datos");
+
+        // Responde con un mensaje indicando que el token ha sido confirmado
+        res.status(200).json({ msg: "Token confirmado, ya puedes iniciar sesión" });
+        console.log("Token confirmado exitosamente");
+    } catch (error) {
+        console.error("Error al confirmar el email:", error);
+        res.status(500).json({ msg: "Error al confirmar la cuenta. Por favor, intente nuevamente más tarde." });
+    }
+};
+
 // ** Recuperar Contraseña **
-export const recuperarContraseña = async (req, res) => {
+export const recuperarContrasena = async (req, res) => {
     const { correo } = req.body;
     try {
         const admin = await Administrador.findOne({ correo });
