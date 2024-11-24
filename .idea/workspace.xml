@@ -4,17 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary">
-      <change afterPath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/productos.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/database/models/Objects/cajaPredefinida.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/productos.routes.js" afterDir="false" />
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Definición de controladores y rutas para Productos y Cajas Predefinidas, además de la prueba de subida de imágenes descriptivas a Cloudinary.">
+      <change afterPath="$PROJECT_DIR$/src/controller/caja_personalizada.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/user.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database/models/Address/shoppingCart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database/models/Objects/cajaPersonalizada.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/caja_personalizada.routes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/user.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/adminController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Actions/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Actions/Cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Objects/Box.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/nodemailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/nodemailer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/models/Address/Address.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Address/Address.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/models/Users/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Users/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/authService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/admin.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/admin.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/productos.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/productos.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +86,8 @@
       <workItem from="1732311966657" duration="1317000" />
       <workItem from="1732313660030" duration="5751000" />
       <workItem from="1732378503108" duration="19987000" />
-      <workItem from="1732406952051" duration="1013000" />
+      <workItem from="1732406952051" duration="2229000" />
+      <workItem from="1732461734342" duration="10318000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -140,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732404144522</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Definición de controladores y rutas para Productos y Cajas Predefinidas, además de la prueba de subida de imágenes descriptivas a Cloudinary.">
+      <option name="closed" value="true" />
+      <created>1732408291625</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1732408291626</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -165,6 +178,7 @@
     <MESSAGE value="Cambio de base de datos local a cluster de Atlas para servicio en la nube" />
     <MESSAGE value="Habilitación del mecanismo de recuperación, verificación de token y cambio de contraseña para el administrador." />
     <MESSAGE value="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary" />
-    <option name="LAST_COMMIT_MESSAGE" value="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary" />
+    <MESSAGE value="Definición de controladores y rutas para Productos y Cajas Predefinidas, además de la prueba de subida de imágenes descriptivas a Cloudinary." />
+    <option name="LAST_COMMIT_MESSAGE" value="Definición de controladores y rutas para Productos y Cajas Predefinidas, además de la prueba de subida de imágenes descriptivas a Cloudinary." />
   </component>
 </project>

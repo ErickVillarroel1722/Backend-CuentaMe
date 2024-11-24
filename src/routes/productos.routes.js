@@ -1,3 +1,13 @@
+/*
+** Acciones con base en los productos: **
+* CRUD completo de productos:
+* - Crear
+* - Listar
+* - Modificar
+* - Eliminar
+* */
+
+
 import express from 'express';
 import {
     crearProducto,

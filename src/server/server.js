@@ -6,6 +6,8 @@ import cors from 'cors';
 import adminRoutes from "../routes/admin.routes.js";
 import productRoutes from "../routes/productos.routes.js";
 import cajaPredefinidaRoutes from "../routes/caja_predefinida.routes.js";
+import cajaPersonalizadaRoutes from "../routes/caja_personalizada.routes.js";
+import userRoutes from "../routes/user.routes.js";
 
 // Server initialize constants
 const app = express();
@@ -25,9 +27,11 @@ app.use(express.json());
 app.use('/api/admin', adminRoutes);
 app.use('/api/productos', productRoutes);
 app.use('/api/cajas_predefinidas', cajaPredefinidaRoutes);
+app.use('/api/caja_personalizada', cajaPersonalizadaRoutes);
+app.use('/api/user', userRoutes);
 
 
 // Non founded route manage
-app.use((req, res) => res.status(404).send("Endpoint no encontrado - 404"));
+app.use((req, res) => res.status(404).send("Error 404 | Página o ruta no encontrada"));
 
 export default app;

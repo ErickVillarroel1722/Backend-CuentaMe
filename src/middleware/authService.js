@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import Administrador from "../database/models/Users/Administrator.js";
+import User from "../database/models/Users/User.js";
 
 const verificarAutenticacion = async (req, res, next) => {
   // Validar si se está enviando el token
@@ -12,16 +13,28 @@ const verificarAutenticacion = async (req, res, next) => {
     // Verificar y decodificar el token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Buscar al administrador por ID en la base de datos
+    // Primero intentamos buscar al administrador
     const admin = await Administrador.findById(decoded.id).select("-password -token");
 
-    if (!admin) {
-      return res.status(404).json({ msg: "Administrador no encontrado" });
+    if (admin) {
+      // Si es un administrador, agregamos los datos del admin a req
+      req.user = admin;
+      req.role = 'admin'; // Opcional, si quieres diferenciar los roles en el futuro
+      return next(); // Pasar al siguiente middleware o controlador
     }
 
-    // Agregar los datos del administrador a req
-    req.user = admin;
+    // Si no encontramos al admin, buscamos al usuario normal
+    const user = await User.findById(decoded.id).select("-password -token");
+
+    if (!user) {
+      return res.status(404).json({ msg: "Usuario no encontrado" });
+    }
+
+    // Si encontramos al usuario, agregamos sus datos a req
+    req.user = user;
+    req.role = 'user'; // Opcional, si quieres diferenciar los roles en el futuro
     next(); // Pasar al siguiente middleware o controlador
+
   } catch (error) {
     console.error("Error verificando el token:", error);
     return res.status(401).json({ msg: "Token no válido o expirado" });

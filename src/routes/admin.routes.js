@@ -1,3 +1,19 @@
+/*
+** Acciones que realiza el administrador: **
+* Iniciar Sesión
+* Registrarse
+* Recuperar Contraseña
+* Ingresa Productos
+* Ingresa Cajas Predefinidas
+* Lista productos
+* Lista cajas predefinidas
+* Lista clientes
+* Lista órdenes de compra
+* Cambia el estado de las cajas personalizadas
+* Lista dirección basándose en el cliente seleccionado
+* */
+
+
 import express from 'express';
 import {
     listadoClientes,

@@ -1,3 +1,12 @@
+/*
+** Acciones con base en a las cajas predefinidas: **
+* CRUD completo:
+* - Crear
+* - Listar
+* - Modificar
+* - Eliminar
+* */
+
 import express from 'express';
 import {
     crearCajaPredefinida,
@@ -11,15 +20,15 @@ import upload from '../middleware/uploadService.js';
 const router = express.Router();
 
 // Crear una nueva caja predefinida
-router.post('/cajas-predefinidas', verificarAutenticacion, upload.single('image'), crearCajaPredefinida);
+router.post('/crear', verificarAutenticacion, upload.single('image'), crearCajaPredefinida);
 
 // Obtener todas las cajas predefinidas
-router.get('/cajas-predefinidas', verificarAutenticacion, upload.single('image'), obtenerCajasPredefinidas);
+router.get('/listar', verificarAutenticacion, upload.single('image'), obtenerCajasPredefinidas);
 
 // Actualizar una caja predefinida
-router.put('/cajas-predefinidas/:id', verificarAutenticacion, upload.single('image'), actualizarCajaPredefinida);
+router.put('/actualizar/:id', verificarAutenticacion, upload.single('image'), actualizarCajaPredefinida);
 
 // Eliminar una caja predefinida
-router.delete('/cajas-predefinidas/:id', verificarAutenticacion, upload.single('image'), eliminarCajaPredefinida);
+router.delete('/eliminar/:id', verificarAutenticacion, upload.single('image'), eliminarCajaPredefinida);
 
 export default router;

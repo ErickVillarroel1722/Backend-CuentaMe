@@ -97,6 +97,29 @@ const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
         <hr>
         <h5>Recuperación de Contraseña | Administrador</h5>
         <hr>
+        <a href="${process.env.BACKEND_URL}/api/user/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
+        <hr>
+        <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
+      `,
+    });
+    console.log("Mensaje enviado satisfactoriamente: ", info.messageId);
+  } catch (error) {
+    console.error('Error al enviar el correo de recuperación:', error);
+  }
+};
+
+export const sendRecoveryPassword_UserEmail = async (userMail, token) => {
+  try {
+    const transporter = await createTransporter();
+    const info = await transporter.sendMail({
+      from: `Cuenta-Me <${SMTP_USER}>`,
+      to: userMail,
+      subject: "Correo para reestablecer tu contraseña",
+      html: `
+        <h1>Cuenta-Me - Regalos Handmade</h1>
+        <hr>
+        <h5>Recuperación de Contraseña | Usuario</h5>
+        <hr>
         <a href="${process.env.BACKEND_URL}/api/admin/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
@@ -105,6 +128,28 @@ const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
     console.log("Mensaje enviado satisfactoriamente: ", info.messageId);
   } catch (error) {
     console.error('Error al enviar el correo de recuperación:', error);
+  }
+};
+
+// Función para enviar el OTP
+export const sendOtpEmail = async (correo, otp) => {
+  try {
+    const transporter = await createTransporter();
+    const info = await transporter.sendMail({
+      from: `Cuenta-Me <${SMTP_USER}>`,
+      to: correo,
+      subject: "Código de verificación",
+      html: `
+        <h1>Cuenta-Me - Verificación de Cuenta</h1>
+        <p>Tu código de verificación es: <strong>${otp}</strong></p>
+        <p>Este código caduca en 15 minutos.</p>
+        <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
+      `,
+    });
+
+    console.log('Correo enviado: %s', info.messageId);
+  } catch (error) {
+    console.error('Error al enviar correo: ', error);
   }
 };
 
