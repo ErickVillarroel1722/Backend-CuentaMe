@@ -4,15 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Habilitación del mecanismo de recuperación, verificación de token y cambio de contraseña para el administrador.">
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary">
+      <change afterPath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/productos.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database/models/Objects/cajaPredefinida.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/productos.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/nodemailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/nodemailer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/adminController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/database.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Objects/Box.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Objects/Box.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Objects/Product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Objects/Product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/uploadService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/uploadService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/cloudinary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/cloudinary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/models/Actions/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Actions/Cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/models/Objects/Box.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/admin.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/admin.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +81,8 @@
       <workItem from="1732310883512" duration="791000" />
       <workItem from="1732311966657" duration="1317000" />
       <workItem from="1732313660030" duration="5751000" />
-      <workItem from="1732378503108" duration="17611000" />
+      <workItem from="1732378503108" duration="19987000" />
+      <workItem from="1732406952051" duration="1013000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -128,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732391216070</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary">
+      <option name="closed" value="true" />
+      <created>1732404144522</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732404144522</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,6 +164,7 @@
     <MESSAGE value="Incorporación de Inicio de Sesión, Registro y confirmación del token de administrador." />
     <MESSAGE value="Cambio de base de datos local a cluster de Atlas para servicio en la nube" />
     <MESSAGE value="Habilitación del mecanismo de recuperación, verificación de token y cambio de contraseña para el administrador." />
-    <option name="LAST_COMMIT_MESSAGE" value="Habilitación del mecanismo de recuperación, verificación de token y cambio de contraseña para el administrador." />
+    <MESSAGE value="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary" />
+    <option name="LAST_COMMIT_MESSAGE" value="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary" />
   </component>
 </project>

@@ -1,5 +1,5 @@
 import mongoose, {Schema, model} from 'mongoose';
-import Caja from '../Objects/Box.js';
+import cajaPredefinida from "../Objects/cajaPredefinida.js";
 
 const carritoSchema = new Schema({
   usuario: {

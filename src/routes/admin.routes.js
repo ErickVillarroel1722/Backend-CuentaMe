@@ -1,13 +1,5 @@
 import express from 'express';
 import {
-    crearProducto,
-    actualizarProducto,
-    eliminarProducto,
-    listadoProductos,
-    crearCaja,
-    actualizarCaja,
-    eliminarCaja,
-    listadoCajas,
     listadoClientes,
     eliminarCliente,
     listadoOrdenesCompra,
@@ -21,7 +13,6 @@ import {
 } from '../controller/adminController.js';
 
 import verificarAutenticacion from '../middleware/authService.js';
-import upload from '../middleware/uploadService.js';  // Middleware para subir imágenes
 
 const router = express.Router();
 
@@ -49,33 +40,6 @@ router.post("/nuevo-password/:token", nuevaContrasena);
 
 // Ver perfil del administrador
 router.get('/perfil', verificarAutenticacion, verPerfil);
-
-// ** Rutas de productos **
-// Crear un nuevo producto (requiere imagen)
-router.post('/producto', verificarAutenticacion, upload.single('imagen'), crearProducto);
-
-// Actualizar producto existente (requiere imagen)
-router.put('/producto/:id', verificarAutenticacion, upload.single('imagen'), actualizarProducto);
-
-// Eliminar producto
-router.delete('/producto/:id', verificarAutenticacion, eliminarProducto);
-
-// Listado de productos
-router.get('/productos', verificarAutenticacion, listadoProductos);
-
-// ** Rutas de cajas **
-
-// Crear una nueva caja (requiere imagen)
-router.post('/caja', verificarAutenticacion, upload.single('imagen'), crearCaja);
-
-// Actualizar caja existente (requiere imagen)
-router.put('/caja/:id', verificarAutenticacion, upload.single('imagen'), actualizarCaja);
-
-// Eliminar caja
-router.delete('/caja/:id', verificarAutenticacion, eliminarCaja);
-
-// Listado de cajas
-router.get('/cajas', verificarAutenticacion, listadoCajas);
 
 // ** Rutas de clientes (usuarios) **
 
