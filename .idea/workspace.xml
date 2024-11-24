@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Definición de controladores y rutas para Productos y Cajas Predefinidas, además de la prueba de subida de imágenes descriptivas a Cloudinary.">
-      <change afterPath="$PROJECT_DIR$/src/controller/caja_personalizada.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/user.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/database/models/Address/shoppingCart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/database/models/Objects/cajaPersonalizada.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/caja_personalizada.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/user.routes.js" afterDir="false" />
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Definición de rutas de cajas personalizadas, el manejo de usuario para la aplicación móvil y la verificación OTP para el registro.">
+      <change afterPath="$PROJECT_DIR$/src/controller/ordenes.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/ordenes.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/nodemailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/nodemailer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Address/Address.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Address/Address.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Users/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Users/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/authService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/admin.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/admin.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/productos.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/productos.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/models/Actions/Cart.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/models/Actions/OrdenCompra.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Actions/OrdenCompra.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +78,7 @@
       <workItem from="1732313660030" duration="5751000" />
       <workItem from="1732378503108" duration="19987000" />
       <workItem from="1732406952051" duration="2229000" />
-      <workItem from="1732461734342" duration="10318000" />
+      <workItem from="1732461734342" duration="13376000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -153,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732408291626</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Definición de rutas de cajas personalizadas, el manejo de usuario para la aplicación móvil y la verificación OTP para el registro.">
+      <option name="closed" value="true" />
+      <created>1732473136420</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1732473136420</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,6 +178,7 @@
     <MESSAGE value="Habilitación del mecanismo de recuperación, verificación de token y cambio de contraseña para el administrador." />
     <MESSAGE value="Habilitación de subida de productos por parte del administrador, a través de la verificación del JWT y el host de la imagen en Cloudinary" />
     <MESSAGE value="Definición de controladores y rutas para Productos y Cajas Predefinidas, además de la prueba de subida de imágenes descriptivas a Cloudinary." />
-    <option name="LAST_COMMIT_MESSAGE" value="Definición de controladores y rutas para Productos y Cajas Predefinidas, además de la prueba de subida de imágenes descriptivas a Cloudinary." />
+    <MESSAGE value="Definición de rutas de cajas personalizadas, el manejo de usuario para la aplicación móvil y la verificación OTP para el registro." />
+    <option name="LAST_COMMIT_MESSAGE" value="Definición de rutas de cajas personalizadas, el manejo de usuario para la aplicación móvil y la verificación OTP para el registro." />
   </component>
 </project>

@@ -8,6 +8,7 @@ import productRoutes from "../routes/productos.routes.js";
 import cajaPredefinidaRoutes from "../routes/caja_predefinida.routes.js";
 import cajaPersonalizadaRoutes from "../routes/caja_personalizada.routes.js";
 import userRoutes from "../routes/user.routes.js";
+import ordenesRoutes from "../routes/ordenes.routes.js";
 
 // Server initialize constants
 const app = express();
@@ -29,6 +30,7 @@ app.use('/api/productos', productRoutes);
 app.use('/api/cajas_predefinidas', cajaPredefinidaRoutes);
 app.use('/api/caja_personalizada', cajaPersonalizadaRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/ordenes', ordenesRoutes);
 
 
 // Non founded route manage
