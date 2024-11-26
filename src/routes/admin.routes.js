@@ -25,7 +25,8 @@ import {
     confirmarEmail,
     recuperarContrasena,
     comprobarTokenContrasena,
-    nuevaContrasena
+    nuevaContrasena,
+    logout
 } from '../controller/adminController.js';
 
 import verificarAutenticacion from '../middleware/authService.js';
@@ -69,5 +70,8 @@ router.delete('/cliente/:id', verificarAutenticacion, eliminarCliente);
 
 // Listado de órdenes de compra
 router.get('/ordenes', verificarAutenticacion, listadoOrdenesCompra);
+
+// Cerrar sesión
+router.post("/logout", verificarAutenticacion, logout);
 
 export default router;

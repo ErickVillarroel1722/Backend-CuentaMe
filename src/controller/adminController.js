@@ -285,3 +285,26 @@ export const nuevaContrasena = async (req, res) => {
         res.status(500).json({ msg: "Error al cambiar la contraseña" });
     }
 };
+
+// ** Cerrar sesión **
+export const logout = async (req, res) => {
+    try {
+        const adminId = req.user.id; // Obtener el ID del administrador autenticado
+
+        // Buscar al administrador en la base de datos
+        const adminBDD = await Administrador.findById(adminId);
+
+        if (!adminBDD) {
+            return res.status(404).json({ msg: "Administrador no encontrado" });
+        }
+
+        // Eliminar el token del administrador
+        adminBDD.token = null;
+        await adminBDD.save();
+
+        res.status(200).json({ msg: "Sesión cerrada correctamente" });
+    } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+        res.status(500).json({ msg: "Error al cerrar sesión" });
+    }
+};

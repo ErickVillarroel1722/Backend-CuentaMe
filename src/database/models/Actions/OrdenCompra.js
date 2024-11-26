@@ -68,8 +68,8 @@ const ordenCompraSchema = new Schema({
   },
   estado: {
     type: String,
-    enum: ['pendiente', 'pagada', 'enviado', 'entregada', 'cancelada'], // Estados de la orden
-    default: 'pendiente',
+    enum: ['Pendiente', 'Pagada', 'Enviado', 'Entregada', 'Cancelada'], // Estados de la orden
+    default: 'Pendiente',
   },
   total: {
     type: Number,

@@ -1,5 +1,6 @@
 import cajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 import cloudinary from "../services/cloudinary.js";
+import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 
 // ** Acciones para las cajas predefinidas **
 export const crearCajaPredefinida = async (req, res) => {
@@ -115,13 +116,22 @@ export const eliminarCajaPredefinida = async (req, res) => {
     }
 };
 
-// ** Ver listado de Productos **
-export const listadoProductos = async (req, res) => {
+
+// Obtener información de una caja según su ID
+export const obtenerCajaPredefinidaPorId = async (req, res) => {
     try {
-        const productos = await Product.find();
-        res.status(200).json({ productos });
+        const { id } = req.params;
+
+        // Buscar la caja predefinida por su ID
+        const cajaPredefinida = await CajaPredefinida.findById(id);
+        if (!cajaPredefinida) {
+            return res.status(404).json({ msg: 'Caja predefinida no encontrada.' });
+        }
+
+        // Devolver la información de la caja encontrada
+        res.status(200).json(cajaPredefinida);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: "Error al obtener los productos" });
+        res.status(500).json({ msg: 'Error al obtener la caja predefinida' });
     }
 };

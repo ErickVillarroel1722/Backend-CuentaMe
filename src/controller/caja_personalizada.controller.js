@@ -1,5 +1,4 @@
 import CajaPersonalizada from "../database/models/Objects/cajaPersonalizada.js";
-import Product from "../database/models/Objects/Product.js";
 
 // Crear una nueva caja personalizada
 export const createCajaPersonalizada = async (req, res) => {

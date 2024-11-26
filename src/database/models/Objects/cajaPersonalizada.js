@@ -25,20 +25,10 @@ const cajaPersonalizadaSchema = new Schema({
         type: String,
         required: true,
     },
-    contenido: {
-        type: String,
-        required: true,
-    },
     extras: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product', // Relación con el modelo Product
-        },
-    ],
-    adornos: [
-        {
-            adorno: { type: String, required: true }, // Nombre del adorno
-            precio: { type: Number, default: 0 }, // Precio asociado al adorno
         },
     ],
 })

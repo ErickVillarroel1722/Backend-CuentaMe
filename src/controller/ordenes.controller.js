@@ -128,3 +128,22 @@ export const cambiarEstadoOrden = async (req, res) => {
         res.status(500).json({ msg: 'Error al cambiar el estado de la orden' });
     }
 };
+
+
+// Controlador para obtener todas las ordenes
+export const verTodasLasOrdenes = async (req, res) => {
+    try {
+        // Obtener todas las órdenes de trabajo
+        const ordenes = await OrdenCompra.find()
+            .populate('usuario', 'nombre email') // Información del usuario que realizó la orden
+            .populate('contenido.cajasPredeterminadas.caja', 'nombre precio') // Información de las cajas predeterminadas
+            .populate('contenido.cajasPersonalizadas.caja', 'nombre precioBase') // Información de las cajas personalizadas
+            .populate('contenido.productosIndividuales.producto', 'nombre precio') // Información de los productos individuales
+            .populate('direccion', 'callePrincipal calleSecundaria numeroCasa referencia'); // Información de la dirección
+
+        res.status(200).json({ ordenes });
+    } catch (error) {
+        console.error("Error al obtener todas las órdenes:", error);
+        res.status(500).json({ msg: "Error al obtener todas las órdenes" });
+    }
+};

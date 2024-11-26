@@ -4,7 +4,8 @@ import {
     verOrdenesPorCliente,
     verOrdenPorId,
     eliminarOrden,
-    cambiarEstadoOrden
+    cambiarEstadoOrden,
+    verTodasLasOrdenes
 } from '../controller/ordenes.controller.js';
 import verificarAutenticacion from '../middleware/authService.js';
 
@@ -17,10 +18,13 @@ router.post('/crear', verificarAutenticacion, crearOrden);
 router.get('/cliente', verificarAutenticacion, verOrdenesPorCliente);
 
 // Ruta para ver una orden específica por ID
-router.get('/:id', verificarAutenticacion, verOrdenPorId);
+router.get('/listar/:id', verificarAutenticacion, verOrdenPorId);
+
+// Ruta para ver todas las órdenes
+router.get('/listar', verificarAutenticacion, verTodasLasOrdenes);
 
 // Ruta para eliminar una orden por ID
-router.delete('/:id', verificarAutenticacion, eliminarOrden);
+router.delete('/eliminar/:id', verificarAutenticacion, eliminarOrden);
 
 // Ruta para cambiar el estado de la orden
 router.put('/:id/estado', verificarAutenticacion, cambiarEstadoOrden);
