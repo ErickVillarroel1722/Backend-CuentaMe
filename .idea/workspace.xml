@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Modificaciones en modelos de Ordenes, en rutas de cajas y de administradores.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/adminController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/caja_personalizada.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/caja_personalizada.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ordenes.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ordenes.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Actions/OrdenCompra.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Actions/OrdenCompra.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/models/Objects/cajaPersonalizada.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/models/Objects/cajaPersonalizada.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/admin.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/admin.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/caja_personalizada.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/caja_personalizada.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/caja_predefinida.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/ordenes.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/ordenes.routes.js" afterDir="false" />
-    </list>
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Modificaciones en modelos de Ordenes, en rutas de cajas y de administradores." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +73,7 @@
       <workItem from="1732406952051" duration="2229000" />
       <workItem from="1732461734342" duration="14603000" />
       <workItem from="1732571693469" duration="1757000" />
-      <workItem from="1732590623346" duration="3704000" />
+      <workItem from="1732590623346" duration="3841000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -175,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732491283961</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Modificaciones en modelos de Ordenes, en rutas de cajas y de administradores.">
+      <option name="closed" value="true" />
+      <created>1732594379578</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1732594379578</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

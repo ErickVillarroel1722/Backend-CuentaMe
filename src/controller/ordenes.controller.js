@@ -147,3 +147,29 @@ export const verTodasLasOrdenes = async (req, res) => {
         res.status(500).json({ msg: "Error al obtener todas las órdenes" });
     }
 };
+
+// Ver Órdenes por user_id (ID del Cliente)
+export const verOrdenesPorUserId = async (req, res) => {
+    const { user_id } = req.params; // Obtener el user_id de los parámetros de la solicitud
+
+    try {
+        // Buscar todas las órdenes asociadas al user_id
+        const ordenes = await OrdenCompra.find({ usuario: user_id })
+            .populate('contenido.cajasPredeterminadas.caja', 'nombre precio') // Información de las cajas predeterminadas
+            .populate('contenido.cajasPersonalizadas.caja', 'nombre precioBase') // Información de las cajas personalizadas
+            .populate('contenido.productosIndividuales.producto', 'nombre precio') // Información de los productos individuales
+            .populate('direccion', 'callePrincipal calleSecundaria numeroCasa referencia'); // Información de la dirección
+
+        // Si no hay órdenes, devolver un mensaje apropiado
+        if (!ordenes || ordenes.length === 0) {
+            return res.status(404).json({ msg: "No se encontraron órdenes para este cliente" });
+        }
+
+        // Devolver las órdenes en la respuesta
+        res.status(200).json({ ordenes });
+    } catch (error) {
+        console.error("Error al obtener las órdenes por user_id:", error);
+        res.status(500).json({ msg: "Error al obtener las órdenes del cliente" });
+    }
+};
+

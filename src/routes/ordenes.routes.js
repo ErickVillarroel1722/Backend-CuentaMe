@@ -5,7 +5,8 @@ import {
     verOrdenPorId,
     eliminarOrden,
     cambiarEstadoOrden,
-    verTodasLasOrdenes
+    verTodasLasOrdenes,
+    verOrdenesPorUserId
 } from '../controller/ordenes.controller.js';
 import verificarAutenticacion from '../middleware/authService.js';
 
@@ -28,5 +29,7 @@ router.delete('/eliminar/:id', verificarAutenticacion, eliminarOrden);
 
 // Ruta para cambiar el estado de la orden
 router.put('/:id/estado', verificarAutenticacion, cambiarEstadoOrden);
+
+router.get('/cliente/:user_id', verificarAutenticacion, verOrdenesPorUserId);
 
 export default router;
