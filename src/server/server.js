@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 
 // Routes imports
 import adminRoutes from "../routes/admin.routes.js";
