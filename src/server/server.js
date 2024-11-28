@@ -23,6 +23,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 
 // Global vars
+app.use('/.well-known', express.static(path.join(__dirname, '.well-known')));
 
 // Routes
 app.use('/api/admin', adminRoutes);
