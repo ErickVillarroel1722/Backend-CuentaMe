@@ -120,7 +120,7 @@ export const sendRecoveryPassword_UserEmail = async (userMail, token) => {
         <hr>
         <h5>Recuperación de Contraseña | Usuario</h5>
         <hr>
-        <a href="https://cuenta-me.up.railway.app/api/user/recuperar-contrasena/${token}">
+        <a href="https://cuenta-me.up.railway.app/recuperar-contrasena/${token}">
           Clic para restablecer tu contraseña
         </a>
         <hr>
