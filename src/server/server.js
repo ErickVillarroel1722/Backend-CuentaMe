@@ -24,7 +24,11 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 
 // Global vars
-app.use('/.well-known', express.static(path.join(__dirname, '.well-known')));
+// Configura la ruta para servir los archivos estáticos desde 'public'
+app.use(express.static(path.join(process.cwd(), 'public')));
+
+// Ruta para servir assetlinks.json
+app.use('/.well-known', express.static(path.join(process.cwd(), 'public', '.well-known')));
 
 // Routes
 app.use('/api/admin', adminRoutes);
