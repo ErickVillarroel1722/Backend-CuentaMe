@@ -212,7 +212,7 @@ export const recuperarContrasena = async (req, res) => {
 
         await usuarioBDD.save();
 
-        res.status(200).json({ msg: "Correo de recuperación enviado. Revisa tu bandeja de entrada" });
+        res.status(200).json({ "msg": "Correo de recuperación enviado. Revisa tu bandeja de entrada", "token": token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Hubo un error al procesar la solicitud de recuperación de contraseña" });
