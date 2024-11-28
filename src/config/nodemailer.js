@@ -108,7 +108,7 @@ const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
   }
 };
 
-export const sendRecoveryPassword_UserEmail = async (userMail, token) => {
+export const sendRecoveryPassword_UserEmail = async (userMail, otp) => {
   try {
     const transporter = await createTransporter();
     const info = await transporter.sendMail({
@@ -120,9 +120,9 @@ export const sendRecoveryPassword_UserEmail = async (userMail, token) => {
         <hr>
         <h5>Recuperación de Contraseña | Usuario</h5>
         <hr>
-        <a href="https://cuenta-me.up.railway.app/api/user/recuperar-contrasena/${token}">
-          Clic para restablecer tu contraseña
-        </a>
+        <p>Tu código OTP para restablecer la contraseña es:</p>
+        <h2>${otp}</h2>
+        <p>Este código es válido por 15 minutos. Por favor, ingrésalo en la aplicación para continuar con la recuperación de tu contraseña.</p>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
       `,
