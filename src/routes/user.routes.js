@@ -8,7 +8,7 @@ import {
     enviarOtp,
     verificarOtp,
     recuperarContrasena,
-    comprobarTokenContrasena,
+    comprobarOtpContrasena,
     nuevaContrasena
 } from '../controller/user.controller.js';
 import verificarAutenticacion from '../middleware/authService.js';
@@ -58,19 +58,18 @@ router.post('/logout', verificarAutenticacion, logout);
 router.post('/recuperar-contrasena', recuperarContrasena);
 
 /**
- * @route GET /api/usuarios/recuperar-contrasena/:token
- * @desc Verifica si el token de recuperación es válido
+ * @route GET /api/usuarios/recuperar-contrasena/otp/:otp
+ * @desc Verifica si el OTP es válido
  * @access Público
  */
-router.get('/recuperar-contrasena/:token', comprobarTokenContrasena);
+router.get('/recuperar-contrasena/otp/:otp', comprobarOtpContrasena);
 
 /**
- * @route POST /api/usuarios/recuperar-contrasena/:token
- * @desc Cambia la contraseña después de verificar el token
+ * @route POST /api/usuarios/recuperar-contrasena/otp/:otp
+ * @desc Cambia la contraseña después de verificar el OTP
  * @access Público
  */
-router.post('/recuperar-contrasena/:token', nuevaContrasena);
-
+router.post('/recuperar-contrasena/otp/:otp', nuevaContrasena);
 /**
  * @route POST /api/usuarios/enviar-otp
  * @desc Envía un OTP al usuario

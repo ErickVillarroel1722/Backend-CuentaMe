@@ -219,32 +219,31 @@ export const recuperarContrasena = async (req, res) => {
 };
 
 // ** confirmar token **
-export const comprobarTokenContrasena = async (req, res) => {
-    const { token } = req.params;
+export const comprobarOtpContrasena = async (req, res) => {
+    const { otp } = req.params;  // El OTP es pasado en la URL
 
-    if (!token) {
-        return res.status(400).json({ msg: "No se proporcionó un token válido" });
+    if (!otp) {
+        return res.status(400).json({ msg: "No se proporcionó un OTP válido" });
     }
 
     try {
-        const usuarioBDD = await User.findOne({ token });
+        const usuarioBDD = await User.findOne({ otp });
 
         if (!usuarioBDD) {
-            return res.status(404).json({ msg: "Token no válido o ha expirado" });
+            return res.status(404).json({ msg: "OTP no válido o ha expirado" });
         }
 
-        res.status(200).json({ msg: "Token confirmado. Ahora puedes cambiar tu contraseña" });
+        res.status(200).json({ msg: "OTP confirmado. Ahora puedes cambiar tu contraseña" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: "Hubo un error al verificar el token" });
+        res.status(500).json({ msg: "Hubo un error al verificar el OTP" });
     }
 };
-
 
 // ** Nueva contraseña **
 export const nuevaContrasena = async (req, res) => {
     const { password, confirmpassword } = req.body;
-    const { token } = req.params;
+    const { otp } = req.params;  // El OTP es pasado en la URL
 
     if (!password || !confirmpassword) {
         return res.status(400).json({ msg: "Debes proporcionar ambas contraseñas" });
@@ -255,15 +254,17 @@ export const nuevaContrasena = async (req, res) => {
     }
 
     try {
-        const usuarioBDD = await User.findOne({ token });
+        const usuarioBDD = await User.findOne({ otp });
 
         if (!usuarioBDD) {
-            return res.status(404).json({ msg: "Token no válido o ha expirado" });
+            return res.status(404).json({ msg: "OTP no válido o ha expirado" });
         }
 
         // Actualizar la contraseña
-        usuarioBDD.password = await usuarioBDD.encryptPassword(password);  // Asegúrate de tener el método `encryptPassword` en tu modelo
-        usuarioBDD.token = null;  // Eliminar el token de recuperación
+        usuarioBDD.password = await usuarioBDD.encryptPassword(password);  // Cifra la nueva contraseña
+        usuarioBDD.otp = null;  // Limpiar el OTP después de la verificación exitosa
+        usuarioBDD.otpExpiration = null;  // Limpiar la expiración del OTP
+        usuarioBDD.isVerified = true;  // Marcar el usuario como verificado
 
         await usuarioBDD.save();
 
