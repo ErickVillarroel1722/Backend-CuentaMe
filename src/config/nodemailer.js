@@ -97,7 +97,7 @@ const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
         <hr>
         <h5>Recuperación de Contraseña | Administrador</h5>
         <hr>
-        <a href="${process.env.BACKEND_URL}/api/user/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
+        <a href="${process.env.BACKEND_URL}/api/admin/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
       `,
@@ -120,7 +120,7 @@ export const sendRecoveryPassword_UserEmail = async (userMail, token) => {
         <hr>
         <h5>Recuperación de Contraseña | Usuario</h5>
         <hr>
-        <a href="${process.env.BACKEND_URL}/api/admin/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
+        <a href="${process.env.BACKEND_URL}/api/user/recuperar-contrasena/${token}">Clic para reestablecer tu contraseña</a>
         <hr>
         <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
       `,
