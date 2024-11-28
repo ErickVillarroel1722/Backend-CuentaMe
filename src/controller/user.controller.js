@@ -203,16 +203,15 @@ export const recuperarContrasena = async (req, res) => {
             return res.status(404).json({ msg: "Correo electrónico no registrado" });
         }
 
-        // Generar el token de recuperación
-        const token = usuarioBDD.crearToken(); // Asegúrate de tener el método `crearToken` en tu modelo de usuario
-        usuarioBDD.token = token;
+        // Generar un OTP
+        const otp = usuarioBDD.generarOtp(); // Genera el OTP
 
-        // Enviar correo con el token
-        await sendRecoveryPassword_UserEmail(correo, token);  // Esta función debe enviar el correo al usuario con el token generado
+        // Enviar el OTP al correo del usuario
+        await sendRecoveryPassword_UserEmail(correo, otp); // Envía el OTP por correo
 
         await usuarioBDD.save();
 
-        res.status(200).json({ "msg": "Correo de recuperación enviado. Revisa tu bandeja de entrada", "token": token });
+        res.status(200).json({ "msg": "Correo de recuperación enviado. Revisa tu bandeja de entrada." });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Hubo un error al procesar la solicitud de recuperación de contraseña" });
