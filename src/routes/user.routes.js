@@ -62,14 +62,14 @@ router.post('/recuperar-contrasena', recuperarContrasena);
  * @desc Verifica si el OTP es válido
  * @access Público
  */
-router.get('/recuperar-contrasena/otp/:otp', comprobarOtpContrasena);
+router.get('/recuperar-contrasena/:otp', comprobarOtpContrasena);
 
 /**
  * @route POST /api/usuarios/recuperar-contrasena/otp/:otp
  * @desc Cambia la contraseña después de verificar el OTP
  * @access Público
  */
-router.post('/recuperar-contrasena/otp/:otp', nuevaContrasena);
+router.post('/nueva-contrasena/:otp', nuevaContrasena);
 /**
  * @route POST /api/usuarios/enviar-otp
  * @desc Envía un OTP al usuario
