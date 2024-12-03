@@ -243,7 +243,6 @@ export const comprobarOtpContrasena = async (req, res) => {
 // ** Nueva contraseña **
 export const nuevaContrasena = async (req, res) => {
     const { password, confirmpassword } = req.body;
-    const { otp } = req.params;  // El OTP es pasado en la URL
 
     if (!password || !confirmpassword) {
         return res.status(400).json({ msg: "Debes proporcionar ambas contraseñas" });
