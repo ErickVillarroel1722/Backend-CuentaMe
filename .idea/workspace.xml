@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Cambio en el manejo del acceso a las credenciales OAuth2 de Google para el envío de correo electrónico">
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Eliminación de necesidad de OTP para el cambio de contraseña">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,6 +80,8 @@
       <workItem from="1732834326879" duration="1241000" />
       <workItem from="1732850374918" duration="586000" />
       <workItem from="1733185452137" duration="3490000" />
+      <workItem from="1733193846603" duration="4493000" />
+      <workItem from="1733234073160" duration="968000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -209,7 +211,39 @@
       <option name="project" value="LOCAL" />
       <updated>1733188684485</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733194866305</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1733194866305</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733204562995</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1733204562995</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733205757912</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1733205757912</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733205851724</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1733205851724</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,6 +275,7 @@
     <MESSAGE value="Implementación de endpoint para ver todas las ordenes de un cliente, a través de su ID" />
     <MESSAGE value="Cambio de verificación para la recuperación de contraseña del Usuario de JWT a OTP" />
     <MESSAGE value="Cambio en el manejo del acceso a las credenciales OAuth2 de Google para el envío de correo electrónico" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambio en el manejo del acceso a las credenciales OAuth2 de Google para el envío de correo electrónico" />
+    <MESSAGE value="Eliminación de necesidad de OTP para el cambio de contraseña" />
+    <option name="LAST_COMMIT_MESSAGE" value="Eliminación de necesidad de OTP para el cambio de contraseña" />
   </component>
 </project>

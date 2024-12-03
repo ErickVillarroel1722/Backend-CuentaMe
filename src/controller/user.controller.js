@@ -82,10 +82,10 @@ export const login = async (req, res) => {
 };
 
 export const verificarOtp = async (req, res) => {
-    const { correo, otp } = req.body;
+    const { correo, otp, action } = req.body;
 
-    if (!correo || !otp) {
-        return res.status(400).json({ msg: "Correo y OTP son obligatorios" });
+    if (!correo || !otp || !action) {
+        return res.status(400).json({ msg: "Correo, OTP y acción son obligatorios" });
     }
 
     try {
@@ -95,18 +95,14 @@ export const verificarOtp = async (req, res) => {
             return res.status(404).json({ msg: "Usuario no encontrado" });
         }
 
-        if (usuario.isVerified) {
-            return res.status(400).json({ msg: "Usuario ya está verificado" });
-        }
-
-        console.log('OTP en la DB:', usuario.otp);  // Muestra el OTP guardado en la DB
+        console.log('OTP en la DB:', usuario.otp); // Muestra el OTP guardado en la DB
         console.log('OTP recibido:', otp);
 
         // Eliminar posibles espacios en blanco en el OTP recibido
         const otpTrimmed = otp.trim();
 
         // Verificar si el OTP coincide
-        if (usuario.otp !== otp) {
+        if (usuario.otp !== otpTrimmed) {
             return res.status(400).json({ msg: "OTP inválido" });
         }
 
@@ -115,13 +111,23 @@ export const verificarOtp = async (req, res) => {
             return res.status(400).json({ msg: "El OTP ha expirado. Por favor solicita uno nuevo." });
         }
 
-        // Verificar usuario
-        usuario.isVerified = true;
-        usuario.otp = null;  // Limpiar el OTP después de la verificación exitosa
-        usuario.otpExpiration = null;  // Limpiar la expiración del OTP
-        await usuario.save();
+        if (action === "verifyAccount") {
+            // Verificar cuenta
+            if (usuario.isVerified) {
+                return res.status(400).json({ msg: "Usuario ya está verificado" });
+            }
+            usuario.isVerified = true;
+            usuario.otp = null; // Limpiar el OTP después de la verificación exitosa
+            usuario.otpExpiration = null; // Limpiar la expiración del OTP
+            await usuario.save();
 
-        return res.status(200).json({ msg: "OTP verificado Correctamente. \n Ya puedes iniciar sesión." })
+            return res.status(200).json({ msg: "OTP verificado correctamente. Ya puedes iniciar sesión." });
+        } else if (action === "resetPassword") {
+            // Verificar OTP para cambio de contraseña
+            return res.status(200).json({ msg: "OTP verificado correctamente. Procede a cambiar tu contraseña." });
+        } else {
+            return res.status(400).json({ msg: "Acción no válida" });
+        }
     } catch (error) {
         console.error("Error al verificar OTP:", error);
         res.status(500).json({ msg: "Error al verificar OTP" });
