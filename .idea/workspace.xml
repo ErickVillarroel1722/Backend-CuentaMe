@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Cambio de verificación para la recuperación de contraseña del Usuario de JWT a OTP">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/nodemailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/nodemailer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +79,8 @@
       <workItem from="1732590623346" duration="3841000" />
       <workItem from="1732598018009" duration="262000" />
       <workItem from="1732834326879" duration="1241000" />
+      <workItem from="1732850374918" duration="586000" />
+      <workItem from="1733185452137" duration="2794000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -191,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732834501221</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Cambio de verificación para la recuperación de contraseña del Usuario de JWT a OTP">
+      <option name="closed" value="true" />
+      <created>1732850758122</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1732850758122</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
