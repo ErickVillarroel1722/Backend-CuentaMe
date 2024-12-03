@@ -58,8 +58,8 @@ router.post('/logout', verificarAutenticacion, logout);
 router.post('/recuperar-contrasena', recuperarContrasena);
 
 /**
- * @route POST /api/usuarios/recuperar-contrasena/otp/:otp
- * @desc Cambia la contraseña después de verificar el OTP
+ * @route POST /api/usuarios/nueva-contrasena
+ * @desc Cambia la contraseña
  * @access Público
  */
 router.post('/nueva-contrasena', nuevaContrasena);
