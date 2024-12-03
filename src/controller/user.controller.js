@@ -226,7 +226,12 @@ export const recuperarContrasena = async (req, res) => {
 
 // ** Nueva contraseña **
 export const nuevaContrasena = async (req, res) => {
-    const { password, confirmpassword } = req.body;
+    const { password, confirmpassword, correo } = req.body; // Asegúrate de obtener el correo desde req.body
+
+    // Validaciones iniciales
+    if (!correo) {
+        return res.status(400).json({ msg: "Debe proporcionar el correo electrónico" });
+    }
 
     if (!password || !confirmpassword) {
         return res.status(400).json({ msg: "Debes proporcionar ambas contraseñas" });
@@ -237,19 +242,18 @@ export const nuevaContrasena = async (req, res) => {
     }
 
     try {
-        const usuarioBDD = await User.findOne({ otp });
+        // Buscar el usuario por correo
+        const usuarioBDD = await User.findOne({ correo });
 
         if (!usuarioBDD) {
-            return res.status(404).json({ msg: "OTP no válido o ha expirado" });
+            return res.status(404).json({ msg: "Usuario no encontrado con el correo proporcionado" });
         }
 
         // Actualizar la contraseña
-        usuarioBDD.password = await usuarioBDD.encryptPassword(password);  // Cifra la nueva contraseña
-        usuarioBDD.otp = null;  // Limpiar el OTP después de la verificación exitosa
-        usuarioBDD.otpExpiration = null;  // Limpiar la expiración del OTP
-        usuarioBDD.isVerified = true;  // Marcar el usuario como verificado
+        usuarioBDD.password = await usuarioBDD.encryptPassword(password); // Cifra la nueva contraseña
+        usuarioBDD.isVerified = true; // Opcional: marcar el usuario como verificado si es necesario
 
-        await usuarioBDD.save();
+        await usuarioBDD.save(); // Guardar los cambios en la base de datos
 
         res.status(200).json({ msg: "Contraseña cambiada correctamente. Ya puedes iniciar sesión con la nueva contraseña" });
     } catch (error) {
