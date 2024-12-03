@@ -8,7 +8,6 @@ import {
     enviarOtp,
     verificarOtp,
     recuperarContrasena,
-    comprobarOtpContrasena,
     nuevaContrasena
 } from '../controller/user.controller.js';
 import verificarAutenticacion from '../middleware/authService.js';
