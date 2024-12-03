@@ -218,28 +218,6 @@ export const recuperarContrasena = async (req, res) => {
     }
 };
 
-// ** confirmar token **
-export const comprobarOtpContrasena = async (req, res) => {
-    const { otp } = req.params;  // El OTP es pasado en la URL
-
-    if (!otp) {
-        return res.status(400).json({ msg: "No se proporcionó un OTP válido" });
-    }
-
-    try {
-        const usuarioBDD = await User.findOne({ otp });
-
-        if (!usuarioBDD) {
-            return res.status(404).json({ msg: "OTP no válido o ha expirado" });
-        }
-
-        res.status(200).json({ msg: "OTP confirmado. Ahora puedes cambiar tu contraseña" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: "Hubo un error al verificar el OTP" });
-    }
-};
-
 // ** Nueva contraseña **
 export const nuevaContrasena = async (req, res) => {
     const { password, confirmpassword } = req.body;
