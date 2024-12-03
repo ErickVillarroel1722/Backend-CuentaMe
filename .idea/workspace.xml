@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Extensión de la funcionalidad de verificación del OTP para poder albergar tanto la activación de la cuenta usuario como el cambio de contraseña.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,7 +80,7 @@
       <workItem from="1733185452137" duration="3490000" />
       <workItem from="1733193846603" duration="4493000" />
       <workItem from="1733234073160" duration="1857000" />
-      <workItem from="1733236487138" duration="829000" />
+      <workItem from="1733236487138" duration="1276000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -252,7 +250,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733235448628</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario.">
+      <option name="closed" value="true" />
+      <created>1733237388105</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1733237388105</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,6 +292,7 @@
     <MESSAGE value="Cambio en el manejo del acceso a las credenciales OAuth2 de Google para el envío de correo electrónico" />
     <MESSAGE value="Eliminación de necesidad de OTP para el cambio de contraseña" />
     <MESSAGE value="Extensión de la funcionalidad de verificación del OTP para poder albergar tanto la activación de la cuenta usuario como el cambio de contraseña." />
-    <option name="LAST_COMMIT_MESSAGE" value="Extensión de la funcionalidad de verificación del OTP para poder albergar tanto la activación de la cuenta usuario como el cambio de contraseña." />
+    <MESSAGE value="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
   </component>
 </project>

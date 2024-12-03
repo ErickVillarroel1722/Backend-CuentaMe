@@ -251,6 +251,7 @@ export const nuevaContrasena = async (req, res) => {
 
         // Actualizar la contraseña
         usuarioBDD.password = await usuarioBDD.encryptPassword(password); // Cifra la nueva contraseña
+        usuarioBDD.otp = null;
         usuarioBDD.isVerified = true; // Opcional: marcar el usuario como verificado si es necesario
 
         await usuarioBDD.save(); // Guardar los cambios en la base de datos
