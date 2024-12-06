@@ -7,6 +7,15 @@ const direccionSchema = new Schema({
     ref: 'Usuario',
     required: true, // Relacionado al usuario
   },
+  alias: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  parroquia:{
+    type: String,
+    required: true,
+  },
   callePrincipal: {
     type: String,
     required: true,
@@ -17,6 +26,7 @@ const direccionSchema = new Schema({
   numeroCasa: {
     type: String,
     required: true,
+    unique: true,
   },
   referencia: {
     type: String,

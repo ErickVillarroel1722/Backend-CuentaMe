@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,7 +82,12 @@
       <workItem from="1733185452137" duration="3490000" />
       <workItem from="1733193846603" duration="4493000" />
       <workItem from="1733234073160" duration="1857000" />
-      <workItem from="1733236487138" duration="1276000" />
+      <workItem from="1733236487138" duration="1972000" />
+      <workItem from="1733241876285" duration="55000" />
+      <workItem from="1733261601366" duration="879000" />
+      <workItem from="1733280228349" duration="1642000" />
+      <workItem from="1733330266067" duration="591000" />
+      <workItem from="1733377269755" duration="3180000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -258,7 +265,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733237388105</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario.">
+      <option name="closed" value="true" />
+      <created>1733238074358</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1733238074359</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

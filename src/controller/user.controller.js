@@ -152,9 +152,8 @@ export const verPerfil = async (req, res) => {
     }
 };
 
-// ** Agregar dirección del usuario autenticado **
 export const agregarDireccion = async (req, res) => {
-    const { callePrincipal, calleSecundaria, numeroCasa, referencia } = req.body;
+    const { alias, parroquia, callePrincipal, calleSecundaria, numeroCasa, referencia } = req.body;
 
     if (!callePrincipal || !numeroCasa) {
         return res.status(400).json({ msg: "Datos incompletos: Calle principal y Número de casa son obligatorios" });
@@ -163,14 +162,25 @@ export const agregarDireccion = async (req, res) => {
     try {
         const usuarioId = req.user.id; // Se obtiene del token
 
-        // Verificar si ya tiene una dirección
-        const direccionExistente = await Address.findOne({ usuario: usuarioId });
-        if (direccionExistente) {
-            return res.status(400).json({ msg: "Ya tienes una dirección registrada" });
+        // Verificar cuántas direcciones tiene el usuario
+        const direccionesUsuario = await Address.find({ usuario: usuarioId });
+        if (direccionesUsuario.length >= 5) {
+            return res.status(400).json({ msg: "Has alcanzado el límite máximo de 5 direcciones" });
         }
 
+        // Verificar si ya existe una dirección con el mismo número de casa
+        const direccionDuplicada = direccionesUsuario.find(
+            direccion => direccion.numeroCasa === numeroCasa
+        );
+        if (direccionDuplicada) {
+            return res.status(400).json({ msg: "Ya tienes una dirección registrada con este número de casa" });
+        }
+
+        // Crear una nueva dirección
         const nuevaDireccion = new Address({
             usuario: usuarioId,
+            alias,
+            parroquia,
             callePrincipal,
             calleSecundaria,
             numeroCasa,
@@ -180,12 +190,12 @@ export const agregarDireccion = async (req, res) => {
         // Guardar la nueva dirección
         await nuevaDireccion.save();
 
-        // Ahora actualizamos el campo "direccion" del usuario con el ID de la nueva dirección
+        // Actualizar el campo "direccion" del usuario con el ID de la nueva dirección
         await User.findByIdAndUpdate(usuarioId, {
             $push: { direccion: nuevaDireccion._id }
         });
 
-        res.status(201).json({ msg: "Dirección registrada correctamente" });
+        res.status(201).json({ msg: "Dirección registrada correctamente", direccion: nuevaDireccion });
     } catch (error) {
         console.error("Error al agregar dirección:", error);
         res.status(500).json({ msg: "Error al registrar la dirección" });
