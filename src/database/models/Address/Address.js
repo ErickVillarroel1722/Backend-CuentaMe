@@ -9,7 +9,6 @@ const direccionSchema = new Schema({
   },
   alias: {
     type: String,
-    unique: true,
     required: true,
   },
   parroquia: {
@@ -36,5 +35,7 @@ const direccionSchema = new Schema({
     default: false, // Por defecto no es predeterminada
   },
 });
+
+direccionSchema.index({ alias: 1, usuario: 1 }, { unique: true });
 
 export default model('Direccion', direccionSchema);
