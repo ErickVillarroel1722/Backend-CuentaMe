@@ -2,6 +2,8 @@ import express from 'express';
 import {
     login,
     agregarDireccion,
+    actualizarDireccion,
+    eliminarDireccion,
     registrarse,
     verPerfil,
     logout,
@@ -27,6 +29,20 @@ router.post('/login', login);
  * @access Público
  */
 router.post('/agregar-direccion', verificarAutenticacion, agregarDireccion);
+
+
+/**
+ * @route POST /api/usuarios/agregar-direccion-temporal
+ * @desc Guarda la dirección temporalmente para el registro
+ */
+router.put('/actualizar-direccion', verificarAutenticacion, actualizarDireccion);
+
+/**
+ * @route POST /api/usuarios/agregar-direccion-temporal
+ * @desc Guarda la dirección temporalmente para el registro
+ */
+router.delete('/eliminar-direccion', verificarAutenticacion, eliminarDireccion);
+
 
 /**
  * @route POST /api/usuarios/registro-definitivo
