@@ -10,7 +10,8 @@ import {
     enviarOtp,
     verificarOtp,
     recuperarContrasena,
-    nuevaContrasena
+    nuevaContrasena,
+    actualizarDireccionPredeterminada
 } from '../controller/user.controller.js';
 import verificarAutenticacion from '../middleware/authService.js';
 
@@ -43,6 +44,7 @@ router.put('/actualizar-direccion/:id', verificarAutenticacion, actualizarDirecc
  */
 router.delete('/eliminar-direccion/:id', verificarAutenticacion, eliminarDireccion);
 
+router.put('/direccion/:id/predeterminada', verificarToken, actualizarDireccionPredeterminada);
 
 /**
  * @route POST /api/usuarios/registro-definitivo
