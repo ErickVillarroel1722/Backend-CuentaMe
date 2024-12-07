@@ -332,4 +332,73 @@ export const enviarOtp = async (req, res) => {
     }
 };
 
+// ** Eliminar dirección del usuario autenticado **
+export const eliminarDireccion = async (req, res) => {
+    const { direccionId } = req.params; // ID de la dirección que se desea eliminar
+
+    try {
+        // Verificar si la dirección existe
+        const direccion = await Address.findById(direccionId);
+        if (!direccion) {
+            return res.status(404).json({ msg: "Dirección no encontrada" });
+        }
+
+        // Verificar si la dirección pertenece al usuario autenticado
+        if (direccion.usuario.toString() !== req.user.id) {
+            return res.status(403).json({ msg: "No tienes permiso para eliminar esta dirección" });
+        }
+
+        // Eliminar la dirección
+        await Address.findByIdAndDelete(direccionId);
+
+        // Eliminar la dirección en el array de direcciones del usuario
+        await User.findByIdAndUpdate(req.user.id, {
+            $pull: { direccion: direccionId }
+        });
+
+        res.status(200).json({ msg: "Dirección eliminada correctamente" });
+    } catch (error) {
+        console.error("Error al eliminar la dirección:", error);
+        res.status(500).json({ msg: "Error al eliminar la dirección" });
+    }
+};
+
+// ** Actualizar dirección del usuario autenticado **
+export const actualizarDireccion = async (req, res) => {
+    const { direccionId } = req.params; // ID de la dirección que se desea actualizar
+    const { alias, parroquia, callePrincipal, calleSecundaria, numeroCasa, referencia } = req.body;
+
+    // Validar si los datos obligatorios están presentes
+    if (!callePrincipal || !numeroCasa) {
+        return res.status(400).json({ msg: "Calle principal y Número de casa son obligatorios" });
+    }
+
+    try {
+        // Verificar si la dirección existe
+        const direccion = await Address.findById(direccionId);
+        if (!direccion) {
+            return res.status(404).json({ msg: "Dirección no encontrada" });
+        }
+
+        // Verificar si la dirección pertenece al usuario autenticado
+        if (direccion.usuario.toString() !== req.user.id) {
+            return res.status(403).json({ msg: "No tienes permiso para actualizar esta dirección" });
+        }
+
+        // Actualizar la dirección con los nuevos datos
+        direccion.alias = alias || direccion.alias;
+        direccion.parroquia = parroquia || direccion.parroquia;
+        direccion.callePrincipal = callePrincipal || direccion.callePrincipal;
+        direccion.calleSecundaria = calleSecundaria || direccion.calleSecundaria;
+        direccion.numeroCasa = numeroCasa || direccion.numeroCasa;
+        direccion.referencia = referencia || direccion.referencia;
+
+        await direccion.save();
+
+        res.status(200).json({ msg: "Dirección actualizada correctamente", direccion });
+    } catch (error) {
+        console.error("Error al actualizar la dirección:", error);
+        res.status(500).json({ msg: "Error al actualizar la dirección" });
+    }
+};
 
