@@ -44,7 +44,7 @@ router.put('/actualizar-direccion/:id', verificarAutenticacion, actualizarDirecc
  */
 router.delete('/eliminar-direccion/:id', verificarAutenticacion, eliminarDireccion);
 
-router.put('/direccion/:id/predeterminada', verificarToken, actualizarDireccionPredeterminada);
+router.put('/direccion/:id/predeterminada', verificarAutenticacion, actualizarDireccionPredeterminada);
 
 /**
  * @route POST /api/usuarios/registro-definitivo
