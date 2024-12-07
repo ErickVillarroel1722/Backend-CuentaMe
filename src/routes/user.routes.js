@@ -35,13 +35,13 @@ router.post('/agregar-direccion', verificarAutenticacion, agregarDireccion);
  * @route POST /api/usuarios/agregar-direccion-temporal
  * @desc Guarda la dirección temporalmente para el registro
  */
-router.put('/actualizar-direccion', verificarAutenticacion, actualizarDireccion);
+router.put('/actualizar-direccion/:id', verificarAutenticacion, actualizarDireccion);
 
 /**
  * @route POST /api/usuarios/agregar-direccion-temporal
  * @desc Guarda la dirección temporalmente para el registro
  */
-router.delete('/eliminar-direccion', verificarAutenticacion, eliminarDireccion);
+router.delete('/eliminar-direccion/:id', verificarAutenticacion, eliminarDireccion);
 
 
 /**
