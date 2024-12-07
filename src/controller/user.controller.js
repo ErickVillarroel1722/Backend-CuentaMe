@@ -343,8 +343,15 @@ export const eliminarDireccion = async (req, res) => {
     const { direccionId } = req.params; // ID de la dirección que se desea eliminar
 
     try {
-        // Verificar si la dirección existe
+        // Verificar si el direccionId es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(direccionId)) {
+            return res.status(400).json({ msg: "ID de dirección no válido" });
+        }
+
+        // Convertir el direccionId a ObjectId
         const direccion = await Address.findById(direccionId);
+
+        // Verificar si la dirección existe
         if (!direccion) {
             return res.status(404).json({ msg: "Dirección no encontrada" });
         }
