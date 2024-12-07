@@ -176,12 +176,10 @@ export const agregarDireccion = async (req, res) => {
             return res.status(400).json({ msg: "Ya tienes una dirección registrada con este número de casa" });
         }
 
-        // Si la nueva dirección es predeterminada, actualizar las demás a `isDefault: false`
+        // Si la nueva dirección es predeterminada, asegúrate de desmarcar las demás como predeterminadas
         if (isDefault) {
-            await Address.updateMany(
-                { usuario: usuarioId },
-                { $set: { isDefault: false } }
-            );
+            // Desmarcar todas las demás direcciones del usuario como predeterminadas
+            await Address.updateMany({ usuario: usuarioId }, { isDefault: false });
         }
 
         // Crear una nueva dirección
@@ -193,7 +191,7 @@ export const agregarDireccion = async (req, res) => {
             calleSecundaria,
             numeroCasa,
             referencia,
-            isDefault: isDefault || false, // Si no se especifica, será `false`
+            isDefault: isDefault, // Establecer si es predeterminada
         });
 
         // Guardar la nueva dirección
@@ -210,6 +208,7 @@ export const agregarDireccion = async (req, res) => {
         res.status(500).json({ msg: "Error al registrar la dirección" });
     }
 };
+
 
 // ** Recuperar contraseña **
 export const recuperarContrasena = async (req, res) => {
