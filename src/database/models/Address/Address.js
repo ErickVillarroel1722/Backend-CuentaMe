@@ -25,7 +25,6 @@ const direccionSchema = new Schema({
   numeroCasa: {
     type: String,
     required: true,
-    unique: true,
   },
   referencia: {
     type: String,
@@ -36,6 +35,7 @@ const direccionSchema = new Schema({
   },
 });
 
+// Crear un índice compuesto único para alias y usuario
 direccionSchema.index({ alias: 1, usuario: 1 }, { unique: true });
 
 export default model('Direccion', direccionSchema);
