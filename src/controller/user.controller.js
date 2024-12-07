@@ -153,7 +153,7 @@ export const verPerfil = async (req, res) => {
 };
 
 export const agregarDireccion = async (req, res) => {
-    const { alias, parroquia, callePrincipal, calleSecundaria, numeroCasa, referencia } = req.body;
+    const { alias, parroquia, callePrincipal, calleSecundaria, numeroCasa, referencia, isDefault } = req.body;
 
     if (!callePrincipal || !numeroCasa) {
         return res.status(400).json({ msg: "Datos incompletos: Calle principal y Número de casa son obligatorios" });
@@ -176,6 +176,14 @@ export const agregarDireccion = async (req, res) => {
             return res.status(400).json({ msg: "Ya tienes una dirección registrada con este número de casa" });
         }
 
+        // Si la nueva dirección es predeterminada, actualizar las demás a `isDefault: false`
+        if (isDefault) {
+            await Address.updateMany(
+                { usuario: usuarioId },
+                { $set: { isDefault: false } }
+            );
+        }
+
         // Crear una nueva dirección
         const nuevaDireccion = new Address({
             usuario: usuarioId,
@@ -185,6 +193,7 @@ export const agregarDireccion = async (req, res) => {
             calleSecundaria,
             numeroCasa,
             referencia,
+            isDefault: isDefault || false, // Si no se especifica, será `false`
         });
 
         // Guardar la nueva dirección
@@ -201,8 +210,6 @@ export const agregarDireccion = async (req, res) => {
         res.status(500).json({ msg: "Error al registrar la dirección" });
     }
 };
-
-
 
 // ** Recuperar contraseña **
 export const recuperarContrasena = async (req, res) => {
@@ -399,6 +406,42 @@ export const actualizarDireccion = async (req, res) => {
     } catch (error) {
         console.error("Error al actualizar la dirección:", error);
         res.status(500).json({ msg: "Error al actualizar la dirección" });
+    }
+};
+
+export const actualizarDireccionPredeterminada = async (req, res) => {
+    const { direccionId } = req.params;
+    const { isDefault } = req.body;
+
+    if (typeof isDefault !== 'boolean') {
+        return res.status(400).json({ msg: "El campo 'isDefault' debe ser un valor booleano (true o false)" });
+    }
+
+    try {
+        const usuarioId = req.user.id; // Se obtiene del token
+
+        // Verificar si la dirección pertenece al usuario
+        const direccion = await Address.findOne({ _id: direccionId, usuario: usuarioId });
+        if (!direccion) {
+            return res.status(404).json({ msg: "La dirección no existe o no pertenece al usuario" });
+        }
+
+        // Si se marca como predeterminada, actualizar las demás a `isDefault: false`
+        if (isDefault) {
+            await Address.updateMany(
+                { usuario: usuarioId },
+                { $set: { isDefault: false } }
+            );
+        }
+
+        // Actualizar el campo isDefault de la dirección específica
+        direccion.isDefault = isDefault;
+        await direccion.save();
+
+        res.status(200).json({ msg: "Dirección actualizada correctamente", direccion });
+    } catch (error) {
+        console.error("Error al actualizar el campo isDefault:", error);
+        res.status(500).json({ msg: "Error al actualizar el campo isDefault" });
     }
 };
 
