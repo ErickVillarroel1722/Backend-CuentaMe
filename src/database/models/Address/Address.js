@@ -1,4 +1,4 @@
-import mongoose, {Schema, model} from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import Usuario from '../Users/User.js';
 
 const direccionSchema = new Schema({
@@ -12,7 +12,7 @@ const direccionSchema = new Schema({
     unique: true,
     required: true,
   },
-  parroquia:{
+  parroquia: {
     type: String,
     required: true,
   },
@@ -30,6 +30,10 @@ const direccionSchema = new Schema({
   },
   referencia: {
     type: String,
+  },
+  isDefault: {
+    type: Boolean,
+    default: false, // Por defecto no es predeterminada
   },
 });
 
