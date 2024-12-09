@@ -21,8 +21,8 @@ const usuarioSchema = new Schema({
     required: true,
   },
   direccion: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Direccion',
+    type: String,
+    required: true,
   }],
   historialCompras: [{
     type: mongoose.Schema.Types.ObjectId,
