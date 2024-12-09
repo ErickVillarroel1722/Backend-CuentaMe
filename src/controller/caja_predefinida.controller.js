@@ -61,6 +61,16 @@ export const crearCajaPredefinida = async (req, res) => {
     }
 };
 
+export const obtenerCajasPredefinidas = async (req, res) => {
+    try {
+        const cajasPredefinidas = await CajaPredefinida.find();
+        res.status(200).json(cajasPredefinidas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error al obtener las cajas predefinidas' });
+    }
+};
+
 export const actualizarCajaPredefinida = async (req, res) => {
     try {
         const { id } = req.params;
