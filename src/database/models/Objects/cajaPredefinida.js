@@ -10,7 +10,7 @@ const cajaPredefinidaSchema = new Schema({
         required: true,
     },
     contenido: {
-        type: [String],  // Lista de productos o elementos que contiene la caja
+        type: String,  // Lista de productos o elementos que contiene la caja
         required: true,
     },
     precio: {
