@@ -6,61 +6,58 @@ import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 export const crearCajaPredefinida = async (req, res) => {
     try {
         const { nombre, descripcion, stock, precio } = req.body;
-        let imagenUrl = null;
+
+        // Mostrar el cuerpo de la solicitud
+        console.log('Request body:', req.body);
 
         // Verificar si ya existe una caja predefinida con el mismo nombre
         const cajaExistente = await CajaPredefinida.findOne({ nombre });
         if (cajaExistente) {
+            console.warn('Caja predefinida con el mismo nombre ya existe:', cajaExistente);
             return res.status(400).json({ msg: 'La caja predefinida con este nombre ya existe.' });
         }
 
-        // Crear la nueva caja predefinida sin la imagen inicialmente
+        // Validar que se haya recibido una imagen
+        if (!req.file) {
+            console.warn('No se recibió ninguna imagen en la solicitud');
+            return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
+        }
+
+        // Subir la imagen a Cloudinary
+        console.log('Subiendo imagen a Cloudinary...');
+        const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+            public_id: `cajas_predefinidas/${new mongoose.Types.ObjectId()}`, // Generar un id único
+            overwrite: true,
+        });
+
+        console.log('Respuesta de Cloudinary:', uploadResponse);
+
+        // Crear la caja predefinida con la URL de la imagen
         const nuevaCajaPredefinida = new CajaPredefinida({
             nombre,
             descripcion,
             stock,
             precio,
-            imagen: null, // Sin imagen al principio
-        });        
+            imagen: uploadResponse.secure_url,
+        });
 
-        console.log(req.body);
-        
-        // Guardar la nueva caja en la base de datos para generar el _id
+        console.log('Guardando nueva caja predefinida en la base de datos...');
         await nuevaCajaPredefinida.save();
 
-        // Si se proporciona una imagen, subirla a Cloudinary
-        if (req.file) {
-            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-                public_id: `cajas_predefinidas/${nuevaCajaPredefinida._id}`,  // Usar el _id generado por MongoDB
-                overwrite: true,  // Sobrescribir si ya existe una imagen con ese nombre
-            });
+        console.log('Caja predefinida creada exitosamente:', nuevaCajaPredefinida);
 
-            // La URL de la imagen será la URL proporcionada por Cloudinary
-            imagenUrl = uploadResponse.secure_url;
-
-            // Actualizar la caja predefinida con la URL de la imagen
-            nuevaCajaPredefinida.imagen = imagenUrl;
-            console.log(req.body);
-            await nuevaCajaPredefinida.save();  // Guardar nuevamente con la URL de la imagen
-        } else {
-            return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
-        }
-
-        // Responder con la caja predefinida creada y su imagen
         res.status(201).json({ msg: 'Caja predefinida creada exitosamente', cajaPredefinida: nuevaCajaPredefinida });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: 'Error al crear la caja predefinida' });
-    }
-};
+        // Mostrar todos los errores posibles en la consola
+        console.error('Error al crear la caja predefinida:', error);
+        console.error('Detalle del error:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name,
+        });
 
-export const obtenerCajasPredefinidas = async (req, res) => {
-    try {
-        const cajasPredefinidas = await CajaPredefinida.find();
-        res.status(200).json(cajasPredefinidas);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: 'Error al obtener las cajas predefinidas' });
+        // Responder al cliente con un mensaje de error
+        res.status(500).json({ msg: 'Error al crear la caja predefinida', error: error.message });
     }
 };
 
