@@ -11,7 +11,7 @@ const ordenCompraSchema = new Schema({
       {
         caja: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'CajaPredefinida', // Modelo de cajas predefinidas
+          ref: 'Caja Predefinida', // Modelo de cajas predefinidas
           required: true,
         },
         cantidad: {

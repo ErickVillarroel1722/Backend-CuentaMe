@@ -2,7 +2,7 @@ import cajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 import cloudinary from "../services/cloudinary.js";
 import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 
-// ** Acciones para las cajas predefinidas **
+// * Acciones para las cajas predefinidas *
 export const crearCajaPredefinida = async (req, res) => {
     try {
         const { nombre, descripcion, stock, precio } = req.body;
