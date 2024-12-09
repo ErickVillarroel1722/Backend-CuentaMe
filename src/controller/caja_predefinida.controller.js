@@ -1,7 +1,3 @@
-import cajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
-import cloudinary from "../services/cloudinary.js";
-import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
-
 // * Acciones para las cajas predefinidas *
 import CajaPredefinida from '../models/CajaPredefinida.js'; // Modelo de MongoDB
 import cloudinary from '../services/cloudinary.js'; // Configuración de Cloudinary
