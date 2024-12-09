@@ -20,10 +20,10 @@ const usuarioSchema = new Schema({
     type: Number,
     required: true,
   },
-  direccion: [{
+  direccion: {
     type: String,
     required: true,
-  }],
+  },
   historialCompras: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'OrdenCompra', // Relación con el modelo OrdenCompra
