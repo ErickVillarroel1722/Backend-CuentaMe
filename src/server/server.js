@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 
 // Routes imports
 import adminRoutes from "../routes/admin.routes.js";
@@ -23,6 +24,11 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 
 // Global vars
+// Configura la ruta para servir los archivos estáticos desde 'public'
+app.use(express.static(path.join(process.cwd(), 'public')));
+
+// Ruta para servir assetlinks.json
+app.use('/.well-known', express.static(path.join(process.cwd(), 'public', '.well-known')));
 
 // Routes
 app.use('/api/admin', adminRoutes);

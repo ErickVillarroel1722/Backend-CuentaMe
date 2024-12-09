@@ -16,11 +16,15 @@ if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN || !SMTP_USER) {
 }
 
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+
+// Crear una instancia del cliente OAuth2 y configurar las credenciales iniciales
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
+// Función para crear un transportador de Nodemailer
 const createTransporter = async () => {
   try {
+    // Obtener un token de acceso actualizado
     const accessTokenResponse = await oAuth2Client.getAccessToken();
     const accessToken = accessTokenResponse?.token;
 
@@ -28,6 +32,7 @@ const createTransporter = async () => {
       throw new Error('No se pudo obtener un token de acceso. Verifica el Refresh Token.');
     }
 
+    // Crear y devolver el transportador
     return nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -40,121 +45,96 @@ const createTransporter = async () => {
       },
     });
   } catch (error) {
-    console.error('Error al crear el transporter: ', error);
+    console.error('Error al crear el transporter:', error.message);
     throw error;
   }
 };
 
-// Funciones para envío de correos
-const sendMail = async (destinatario, asunto, mensaje) => {
+// Función genérica para enviar correos
+const sendMail = async (mailOptions) => {
   try {
     const transporter = await createTransporter();
-    const info = await transporter.sendMail({
-      from: `Cuenta-Me <${SMTP_USER}>`,
-      to: destinatario,
-      subject: asunto,
-      html: `<p>${mensaje}</p>`,
-    });
-
-    console.log('Correo enviado: %s', info.messageId);
+    const result = await transporter.sendMail(mailOptions);
+    console.log('Correo enviado:', result.messageId);
+    return result;
   } catch (error) {
-    console.error('Error al enviar correo: ', error);
+    console.error('Error al enviar correo:', error);
+    throw error;
   }
 };
 
-const sendMailToAdmin = async (userMail, token) => {
-  try {
-    const transporter = await createTransporter();
-    const info = await transporter.sendMail({
-      from: `Cuenta-Me <${SMTP_USER}>`,
-      to: userMail,
-      subject: "Cuenta-me | Verifica tu cuenta de correo electrónico",
-      html: `
-        <h1>Cuenta-Me - Regalos Handmade</h1>
-        <hr/>
-        <h5>Activa tu cuenta de Administrador</h5>
-        <hr/>
-        <a href="${process.env.BACKEND_URL}/api/admin/confirmar/${token}">Clic para confirmar tu cuenta</a>
-        <hr>
-        <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
-      `,
-    });
-    console.log("Mensaje enviado satisfactoriamente: ", info.messageId);
-  } catch (error) {
-    console.error('Error al enviar el correo de confirmación:', error);
-  }
+// Funciones específicas para diferentes tipos de correos
+export const sendMailToAdmin = async (userMail, token) => {
+  const mailOptions = {
+    from: `Cuenta-Me <${SMTP_USER}>`,
+    to: userMail,
+    subject: "Cuenta-me | Verifica tu cuenta de correo electrónico",
+    html: `
+      <h1>Cuenta-Me - Regalos Handmade</h1>
+      <hr/>
+      <h5>Activa tu cuenta de Administrador</h5>
+      <hr/>
+      <a href="${process.env.BACKEND_URL}/api/admin/confirmar/${token}">Clic para confirmar tu cuenta</a>
+      <hr>
+      <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
+    `,
+  };
+
+  return sendMail(mailOptions);
 };
 
-const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
-  try {
-    const transporter = await createTransporter();
-    const info = await transporter.sendMail({
-      from: `Cuenta-Me <${SMTP_USER}>`,
-      to: userMail,
-      subject: "Correo para reestablecer tu contraseña",
-      html: `
-        <h1>Cuenta-Me - Regalos Handmade</h1>
-        <hr>
-        <h5>Recuperación de Contraseña | Administrador</h5>
-        <hr>
-        <a href="${process.env.BACKEND_URL}/api/user/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
-        <hr>
-        <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
-      `,
-    });
-    console.log("Mensaje enviado satisfactoriamente: ", info.messageId);
-  } catch (error) {
-    console.error('Error al enviar el correo de recuperación:', error);
-  }
+export const sendRecoveryPassword_AdminEmail = async (userMail, token) => {
+  const mailOptions = {
+    from: `Cuenta-Me <${SMTP_USER}>`,
+    to: userMail,
+    subject: "Correo para reestablecer tu contraseña",
+    html: `
+      <h1>Cuenta-Me - Regalos Handmade</h1>
+      <hr>
+      <h5>Recuperación de Contraseña | Administrador</h5>
+      <hr>
+      <a href="${process.env.BACKEND_URL}/api/admin/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
+      <hr>
+      <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
+    `,
+  };
+
+  return sendMail(mailOptions);
 };
 
-export const sendRecoveryPassword_UserEmail = async (userMail, token) => {
-  try {
-    const transporter = await createTransporter();
-    const info = await transporter.sendMail({
-      from: `Cuenta-Me <${SMTP_USER}>`,
-      to: userMail,
-      subject: "Correo para reestablecer tu contraseña",
-      html: `
-        <h1>Cuenta-Me - Regalos Handmade</h1>
-        <hr>
-        <h5>Recuperación de Contraseña | Usuario</h5>
-        <hr>
-        <a href="${process.env.BACKEND_URL}/api/admin/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
-        <hr>
-        <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
-      `,
-    });
-    console.log("Mensaje enviado satisfactoriamente: ", info.messageId);
-  } catch (error) {
-    console.error('Error al enviar el correo de recuperación:', error);
-  }
+export const sendRecoveryPassword_UserEmail = async (userMail, otp) => {
+  const mailOptions = {
+    from: `Cuenta-Me <${SMTP_USER}>`,
+    to: userMail,
+    subject: "Correo para reestablecer tu contraseña",
+    html: `
+      <h1>Cuenta-Me - Regalos Handmade</h1>
+      <hr>
+      <h5>Recuperación de Contraseña | Usuario</h5>
+      <hr>
+      <p>Tu código OTP para restablecer la contraseña es:</p>
+      <h2>${otp}</h2>
+      <p>Este código es válido por 15 minutos. Por favor, ingrésalo en la aplicación para continuar con la recuperación de tu contraseña.</p>
+      <hr>
+      <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
+    `,
+  };
+
+  return sendMail(mailOptions);
 };
 
-// Función para enviar el OTP
 export const sendOtpEmail = async (correo, otp) => {
-  try {
-    const transporter = await createTransporter();
-    const info = await transporter.sendMail({
-      from: `Cuenta-Me <${SMTP_USER}>`,
-      to: correo,
-      subject: "Código de verificación",
-      html: `
-        <h1>Cuenta-Me - Verificación de Cuenta</h1>
-        <p>Tu código de verificación es: <strong>${otp}</strong></p>
-        <p>Este código caduca en 15 minutos.</p>
-        <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
-      `,
-    });
+  const mailOptions = {
+    from: `Cuenta-Me <${SMTP_USER}>`,
+    to: correo,
+    subject: "Código de verificación",
+    html: `
+      <h1>Cuenta-Me - Verificación de Cuenta</h1>
+      <p>Tu código de verificación es: <strong>${otp}</strong></p>
+      <p>Este código caduca en 15 minutos.</p>
+      <footer>Regalos con amor y emoción ❤️🎁🎀!</footer>
+    `,
+  };
 
-    console.log('Correo enviado: %s', info.messageId);
-  } catch (error) {
-    console.error('Error al enviar correo: ', error);
-  }
-};
-
-export {
-  sendMail,
-  sendMailToAdmin,
-  sendRecoveryPassword_AdminEmail,
+  return sendMail(mailOptions);
 };

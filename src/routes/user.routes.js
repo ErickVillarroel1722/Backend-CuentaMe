@@ -2,14 +2,16 @@ import express from 'express';
 import {
     login,
     agregarDireccion,
+    actualizarDireccion,
+    eliminarDireccion,
     registrarse,
     verPerfil,
     logout,
     enviarOtp,
     verificarOtp,
     recuperarContrasena,
-    comprobarTokenContrasena,
-    nuevaContrasena
+    nuevaContrasena,
+    actualizarDireccionPredeterminada
 } from '../controller/user.controller.js';
 import verificarAutenticacion from '../middleware/authService.js';
 
@@ -28,6 +30,21 @@ router.post('/login', login);
  * @access Público
  */
 router.post('/agregar-direccion', verificarAutenticacion, agregarDireccion);
+
+
+/**
+ * @route POST /api/usuarios/agregar-direccion-temporal
+ * @desc Guarda la dirección temporalmente para el registro
+ */
+router.put('/actualizar-direccion/:id', verificarAutenticacion, actualizarDireccion);
+
+/**
+ * @route POST /api/usuarios/agregar-direccion-temporal
+ * @desc Guarda la dirección temporalmente para el registro
+ */
+router.delete('/eliminar-direccion/:id', verificarAutenticacion, eliminarDireccion);
+
+router.put('/direccion/:id/predeterminada', verificarAutenticacion, actualizarDireccionPredeterminada);
 
 /**
  * @route POST /api/usuarios/registro-definitivo
@@ -58,18 +75,11 @@ router.post('/logout', verificarAutenticacion, logout);
 router.post('/recuperar-contrasena', recuperarContrasena);
 
 /**
- * @route GET /api/usuarios/recuperar-contrasena/:token
- * @desc Verifica si el token de recuperación es válido
+ * @route POST /api/usuarios/nueva-contrasena
+ * @desc Cambia la contraseña
  * @access Público
  */
-router.get('/recuperar-contrasena/:token', comprobarTokenContrasena);
-
-/**
- * @route POST /api/usuarios/recuperar-contrasena/:token
- * @desc Cambia la contraseña después de verificar el token
- * @access Público
- */
-router.post('/recuperar-contrasena/:token', nuevaContrasena);
+router.post('/nueva-contrasena', nuevaContrasena);
 
 /**
  * @route POST /api/usuarios/enviar-otp

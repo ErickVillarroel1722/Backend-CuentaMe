@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Modificaciones en modelos de Ordenes, en rutas de cajas y de administradores." />
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,6 +76,18 @@
       <workItem from="1732461734342" duration="14603000" />
       <workItem from="1732571693469" duration="1757000" />
       <workItem from="1732590623346" duration="3841000" />
+      <workItem from="1732598018009" duration="262000" />
+      <workItem from="1732834326879" duration="1241000" />
+      <workItem from="1732850374918" duration="586000" />
+      <workItem from="1733185452137" duration="3490000" />
+      <workItem from="1733193846603" duration="4493000" />
+      <workItem from="1733234073160" duration="1857000" />
+      <workItem from="1733236487138" duration="1972000" />
+      <workItem from="1733241876285" duration="55000" />
+      <workItem from="1733261601366" duration="879000" />
+      <workItem from="1733280228349" duration="1642000" />
+      <workItem from="1733330266067" duration="591000" />
+      <workItem from="1733377269755" duration="3180000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -171,7 +185,95 @@
       <option name="project" value="LOCAL" />
       <updated>1732594379578</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Implementación de endpoint para ver todas las ordenes de un cliente, a través de su ID">
+      <option name="closed" value="true" />
+      <created>1732598197467</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1732598197468</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Cambio de verificación para la recuperación de contraseña del Usuario de JWT a OTP">
+      <option name="closed" value="true" />
+      <created>1732834501221</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1732834501221</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Cambio de verificación para la recuperación de contraseña del Usuario de JWT a OTP">
+      <option name="closed" value="true" />
+      <created>1732850758122</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1732850758122</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Cambio en el manejo del acceso a las credenciales OAuth2 de Google para el envío de correo electrónico">
+      <option name="closed" value="true" />
+      <created>1733188684485</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1733188684485</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733194866305</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1733194866305</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733204562995</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1733204562995</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733205757912</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1733205757912</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Eliminación de necesidad de OTP para el cambio de contraseña">
+      <option name="closed" value="true" />
+      <created>1733205851724</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1733205851724</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Extensión de la funcionalidad de verificación del OTP para poder albergar tanto la activación de la cuenta usuario como el cambio de contraseña.">
+      <option name="closed" value="true" />
+      <created>1733235448628</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1733235448628</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario.">
+      <option name="closed" value="true" />
+      <created>1733237388105</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1733237388105</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario.">
+      <option name="closed" value="true" />
+      <created>1733238074358</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1733238074359</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,6 +302,12 @@
     <MESSAGE value="Definición de rutas de cajas personalizadas, el manejo de usuario para la aplicación móvil y la verificación OTP para el registro." />
     <MESSAGE value="Definición de controladores y rutas para la Orden de compra, además de la modificación del estado de la misma." />
     <MESSAGE value="Modificaciones en modelos de Ordenes, en rutas de cajas y de administradores." />
-    <option name="LAST_COMMIT_MESSAGE" value="Modificaciones en modelos de Ordenes, en rutas de cajas y de administradores." />
+    <MESSAGE value="Implementación de endpoint para ver todas las ordenes de un cliente, a través de su ID" />
+    <MESSAGE value="Cambio de verificación para la recuperación de contraseña del Usuario de JWT a OTP" />
+    <MESSAGE value="Cambio en el manejo del acceso a las credenciales OAuth2 de Google para el envío de correo electrónico" />
+    <MESSAGE value="Eliminación de necesidad de OTP para el cambio de contraseña" />
+    <MESSAGE value="Extensión de la funcionalidad de verificación del OTP para poder albergar tanto la activación de la cuenta usuario como el cambio de contraseña." />
+    <MESSAGE value="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
   </component>
 </project>

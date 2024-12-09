@@ -1,4 +1,4 @@
-import mongoose, {Schema, model} from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import Usuario from '../Users/User.js';
 
 const direccionSchema = new Schema({
@@ -6,6 +6,14 @@ const direccionSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',
     required: true, // Relacionado al usuario
+  },
+  alias: {
+    type: String,
+    required: true,
+  },
+  parroquia: {
+    type: String,
+    required: true,
   },
   callePrincipal: {
     type: String,
@@ -21,6 +29,13 @@ const direccionSchema = new Schema({
   referencia: {
     type: String,
   },
+  isDefault: {
+    type: Boolean,
+    default: false, // Por defecto no es predeterminada
+  },
 });
+
+// Crear un índice compuesto único para alias y usuario
+direccionSchema.index({ alias: 1, usuario: 1 }, { unique: true });
 
 export default model('Direccion', direccionSchema);

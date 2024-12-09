@@ -28,6 +28,9 @@ const usuarioSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'OrdenCompra', // Relación con el modelo OrdenCompra
   }],
+  token:{
+    type: String
+  },
 
   // Campos para la verificación del código OTP
   otp: {
@@ -73,5 +76,12 @@ usuarioSchema.methods.encryptPassword = async function(password) {
 usuarioSchema.methods.matchPassword = async function(password) {
   return await bcrypt.compare(password, this.password);
 };
+
+// Método para crear el token del cliente
+usuarioSchema.methods.crearToken = function() {
+    const tokenGenerado = this.token = Math.random().toString(36).slice(2);
+    return tokenGenerado;
+};
+
 
 export default model('Usuario', usuarioSchema);
