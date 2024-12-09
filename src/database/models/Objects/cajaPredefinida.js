@@ -19,7 +19,7 @@ const cajaPredefinidaSchema = new Schema({
     },
     imagen: {
         type: String,
-        required: true, // Asumimos que la imagen se subirá a Cloudinary y se guardará la URL
+        required: false, // Asumimos que la imagen se subirá a Cloudinary y se guardará la URL
     },
 });
 
