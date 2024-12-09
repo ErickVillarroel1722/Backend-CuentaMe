@@ -10,9 +10,9 @@ const cajaPredefinidaSchema = new Schema({
         type: String,
         required: true,
     },
-    contenido: {
-        type: String,  // Lista de productos o elementos que contiene la caja
-        required: true,
+    stock:{
+        type: Number,
+        required: true
     },
     precio: {
         type: Number,
