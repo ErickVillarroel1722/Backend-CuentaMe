@@ -4,6 +4,7 @@ const cajaPredefinidaSchema = new Schema({
     nombre: {
         type: String,
         required: true,
+        unique: true
     },
     descripcion: {
         type: String,
