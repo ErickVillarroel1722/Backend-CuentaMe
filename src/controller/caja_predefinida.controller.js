@@ -23,12 +23,21 @@ export const crearCajaPredefinida = async (req, res) => {
             return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
         }
 
+        // Mostrar información sobre el archivo recibido
+        console.log('Archivo recibido:', req.file);
+
         // Subir la imagen a Cloudinary
         console.log('Subiendo imagen a Cloudinary...');
-        const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-            public_id: `cajas_predefinidas/${new mongoose.Types.ObjectId()}`, // Generar un id único
-            overwrite: true,
-        });
+        let uploadResponse;
+        try {
+            uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `cajas_predefinidas/${new mongoose.Types.ObjectId()}`, // Generar un id único
+                overwrite: true,
+            });
+        } catch (uploadError) {
+            console.error('Error al subir la imagen a Cloudinary:', uploadError);
+            return res.status(500).json({ msg: 'Error al subir la imagen a Cloudinary', error: uploadError.message });
+        }
 
         console.log('Respuesta de Cloudinary:', uploadResponse);
 
