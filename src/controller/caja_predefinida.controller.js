@@ -13,52 +13,50 @@ export const crearCajaPredefinida = async (req, res) => {
         // Verificar si ya existe una caja predefinida con el mismo nombre
         let cajaExistente = await CajaPredefinida.findOne({ nombre });
 
-        // Si la caja no existe, crearla
-        if (!cajaExistente) {
-            // Crear la caja predefinida sin la imagen
-            const nuevaCajaPredefinida = new CajaPredefinida({
-                nombre,
-                descripcion,
-                stock,
-                precio,
-                imagen: null, // Inicialmente sin imagen
-            });
-
-            // Guardar la caja creada
-            console.log('Guardando nueva caja predefinida en la base de datos...');
-            await nuevaCajaPredefinida.save();
-
-            console.log('Caja predefinida creada exitosamente:', nuevaCajaPredefinida);
-
-            // Subir la imagen a Cloudinary
-            console.log('Subiendo imagen a Cloudinary...');
-            let uploadResponse;
-            try {
-                uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-                    public_id: `cajas_predefinidas/${nuevaCajaPredefinida._id}`, // Usamos el ID de la caja como nombre del archivo
-                    overwrite: true,
-                });
-            } catch (uploadError) {
-                console.error('Error al subir la imagen a Cloudinary:', uploadError);
-                return res.status(500).json({ msg: 'Error al subir la imagen a Cloudinary', error: uploadError.message });
-            }
-
-            console.log('Respuesta de Cloudinary:', uploadResponse);
-
-            // Actualizar la caja con la URL de la imagen
-            nuevaCajaPredefinida.imagen = uploadResponse.secure_url;
-
-            // Guardar la caja con la imagen actualizada
-            await nuevaCajaPredefinida.save();
-
-            console.log('Caja predefinida actualizada con la imagen:', nuevaCajaPredefinida);
-
-            // Responder con la caja predefinida y su imagen
-            return res.status(201).json({ msg: 'Caja predefinida creada exitosamente', cajaPredefinida: nuevaCajaPredefinida });
-        } else {
+        if (cajaExistente) {
             console.warn('Caja predefinida con el mismo nombre ya existe:', cajaExistente);
             return res.status(400).json({ msg: 'La caja predefinida con este nombre ya existe.' });
         }
+
+        // Verificar si se recibió una imagen
+        if (!req.file) {
+            console.warn('No se recibió ninguna imagen en la solicitud');
+            return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
+        }
+
+        // Subir la imagen a Cloudinary antes de crear la caja
+        console.log('Subiendo imagen a Cloudinary...');
+        let uploadResponse;
+        try {
+            uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `cajas_predefinidas/${new mongoose.Types.ObjectId()}`, // Usamos un nuevo ID único
+                overwrite: true,
+            });
+        } catch (uploadError) {
+            console.error('Error al subir la imagen a Cloudinary:', uploadError);
+            return res.status(500).json({ msg: 'Error al subir la imagen a Cloudinary', error: uploadError.message });
+        }
+
+        console.log('Respuesta de Cloudinary:', uploadResponse);
+
+        // Crear la caja predefinida con la URL de la imagen
+        const nuevaCajaPredefinida = new CajaPredefinida({
+            nombre,
+            descripcion,
+            stock,
+            precio,
+            imagen: uploadResponse.secure_url, // Guardar la URL de la imagen en la caja
+        });
+
+        // Guardar la caja predefinida en la base de datos
+        console.log('Guardando nueva caja predefinida en la base de datos...');
+        await nuevaCajaPredefinida.save();
+
+        console.log('Caja predefinida creada exitosamente:', nuevaCajaPredefinida);
+
+        // Responder con la caja predefinida y su imagen
+        return res.status(201).json({ msg: 'Caja predefinida creada exitosamente', cajaPredefinida: nuevaCajaPredefinida });
+
     } catch (error) {
         // Manejar error de clave duplicada
         if (error.code === 11000) {
