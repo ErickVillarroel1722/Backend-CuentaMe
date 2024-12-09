@@ -3,6 +3,10 @@ import cloudinary from "../services/cloudinary.js";
 import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 
 // * Acciones para las cajas predefinidas *
+import CajaPredefinida from '../models/CajaPredefinida.js'; // Modelo de MongoDB
+import cloudinary from '../services/cloudinary.js'; // Configuración de Cloudinary
+import mongoose from 'mongoose';
+
 export const crearCajaPredefinida = async (req, res) => {
     try {
         const { nombre, descripcion, stock, precio } = req.body;
@@ -69,6 +73,7 @@ export const crearCajaPredefinida = async (req, res) => {
         res.status(500).json({ msg: 'Error al crear la caja predefinida', error: error.message });
     }
 };
+
 
 export const obtenerCajasPredefinidas = async (req, res) => {
     try {
