@@ -5,7 +5,7 @@ import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 // ** Acciones para las cajas predefinidas **
 export const crearCajaPredefinida = async (req, res) => {
     try {
-        const { nombre, descripcion, contenido, precio } = req.body;
+        const { nombre, descripcion, stock, precio } = req.body;
         let imagenUrl = null;
 
         // Verificar si ya existe una caja predefinida con el mismo nombre
@@ -18,7 +18,7 @@ export const crearCajaPredefinida = async (req, res) => {
         const nuevaCajaPredefinida = new CajaPredefinida({
             nombre,
             descripcion,
-            contenido,
+            stock,
             precio,
             imagen: null, // Sin imagen al principio
         });
@@ -64,7 +64,7 @@ export const obtenerCajasPredefinidas = async (req, res) => {
 export const actualizarCajaPredefinida = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, descripcion, contenido, precio } = req.body;
+        const { nombre, descripcion, stock, precio } = req.body;
 
         // Verificar si la caja predefinida existe
         const cajaPredefinida = await CajaPredefinida.findById(id);
@@ -75,7 +75,7 @@ export const actualizarCajaPredefinida = async (req, res) => {
         // Actualizar los campos de la caja predefinida
         cajaPredefinida.nombre = nombre;
         cajaPredefinida.descripcion = descripcion;
-        cajaPredefinida.contenido = contenido;
+        cajaPredefinida.stock = stock;
         cajaPredefinida.precio = precio;
 
         // Si hay una nueva imagen, actualizarla
