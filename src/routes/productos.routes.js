@@ -13,6 +13,7 @@ import {
     crearProducto,
     actualizarProducto,
     listadoProductos,
+    listarProductoId,
     eliminarProducto
 } from '../controller/productos.controller.js';
 
@@ -27,7 +28,9 @@ router.post('/crear_productos', verificarAutenticacion, upload.single('imagen'),
 
 // ** Ruta para obtener el listado de productos **
 // Esta ruta obtiene todos los productos almacenados en la base de datos.
-router.get('/lista_productos', verificarAutenticacion, listadoProductos);
+router.get('/lista_productos', listadoProductos);
+
+router.get('/lista_productos/:id', listadoProductos);
 
 // ** Ruta para actualizar un producto **
 // Esta ruta permite actualizar la información de un producto existente. Usa la verificación de autenticación y subida de imagen
