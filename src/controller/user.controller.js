@@ -5,9 +5,9 @@ import {sendOtpEmail, sendRecoveryPassword_UserEmail} from "../config/nodemailer
 
 // ** Registro de usuario sin dirección y envío de OTP **
 export const registrarse = async (req, res) => {
-    const { nombre, correo, password, telefono } = req.body;
+    const { nombre, correo, password, telefono, direccion } = req.body;
 
-    if (!nombre || !correo || !password || !telefono) {
+    if (!nombre || !correo || !password || !telefono || !direccion) {
         return res.status(400).json({ msg: "Todos los campos son obligatorios" });
     }
 
@@ -22,7 +22,7 @@ export const registrarse = async (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000); // Generar OTP de 6 dígitos
 
         // Crear usuario temporal
-        const nuevoUsuario = new User({ nombre, correo, telefono, password });
+        const nuevoUsuario = new User({ nombre, correo, telefono, password, direccion });
         nuevoUsuario.password = await nuevoUsuario.encryptPassword(password);
         nuevoUsuario.otp = otp;
         nuevoUsuario.isVerified = false;
