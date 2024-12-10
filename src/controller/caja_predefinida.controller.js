@@ -145,8 +145,8 @@ export const eliminarCajaPredefinida = async (req, res) => {
             return res.status(404).json({ msg: 'Caja predefinida no encontrada.' });
         }
 
-        // Eliminar la caja predefinida
-        await cajaPredefinida.remove();
+        // Eliminar la caja predefinida usando deleteOne
+        await CajaPredefinida.deleteOne({ _id: id }); // Cambiar remove() por deleteOne()
         res.status(200).json({ msg: 'Caja predefinida eliminada exitosamente' });
     } catch (error) {
         console.error(error);
