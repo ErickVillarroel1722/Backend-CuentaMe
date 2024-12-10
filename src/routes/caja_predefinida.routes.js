@@ -24,10 +24,10 @@ const router = express.Router();
 router.post('/crear', verificarAutenticacion, upload.single('imagen'), crearCajaPredefinida);
 
 // Obtener todas las cajas predefinidas
-router.get('/listar', verificarAutenticacion, obtenerCajasPredefinidas);
+router.get('/listar', obtenerCajasPredefinidas);
 
 // Obtener información de una caja por ID
-router.get('/listar/:id', verificarAutenticacion, obtenerCajaPredefinidaPorId);
+router.get('/listar/:id', obtenerCajaPredefinidaPorId);
 
 // Actualizar una caja predefinida
 router.put('/actualizar/:id', verificarAutenticacion, upload.single('imagen'), actualizarCajaPredefinida);
