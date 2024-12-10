@@ -91,6 +91,12 @@ export const obtenerCajasPredefinidas = async (req, res) => {
 export const actualizarCajaPredefinida = async (req, res) => {
     try {
         const { id } = req.params;
+        
+        // Validar si el id es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'ID no válido' });
+        }
+
         const { nombre, descripcion, stock, precio } = req.body;
 
         // Verificar si la caja predefinida existe
@@ -128,6 +134,11 @@ export const eliminarCajaPredefinida = async (req, res) => {
     try {
         const { id } = req.params;
 
+        // Validar si el id es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'ID no válido' });
+        }
+
         // Verificar si la caja predefinida existe
         const cajaPredefinida = await CajaPredefinida.findById(id);
         if (!cajaPredefinida) {
@@ -142,7 +153,6 @@ export const eliminarCajaPredefinida = async (req, res) => {
         res.status(500).json({ msg: 'Error al eliminar la caja predefinida' });
     }
 };
-
 
 // Obtener información de una caja según su ID
 export const obtenerCajaPredefinidaPorId = async (req, res) => {
