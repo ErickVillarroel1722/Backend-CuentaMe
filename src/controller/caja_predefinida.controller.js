@@ -91,7 +91,7 @@ export const obtenerCajasPredefinidas = async (req, res) => {
 export const actualizarCajaPredefinida = async (req, res) => {
     try {
         const { id } = req.params;
-        
+
         // Validar si el id es un ObjectId válido
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ msg: 'ID no válido' });
@@ -113,19 +113,29 @@ export const actualizarCajaPredefinida = async (req, res) => {
 
         // Si hay una nueva imagen, actualizarla
         if (req.file) {
-            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-                public_id: `cajas_predefinidas/${cajaPredefinida._id}`,
-                overwrite: true,
-            });
+            console.log('Archivo recibido:', req.file);
+            
+            try {
+                const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                    public_id: `cajas_predefinidas/${cajaPredefinida._id}`,
+                    overwrite: true,
+                });
 
-            cajaPredefinida.imagen = uploadResponse.secure_url;
+                console.log('Imagen subida a Cloudinary:', uploadResponse);
+                cajaPredefinida.imagen = uploadResponse.secure_url;
+            } catch (uploadError) {
+                console.error('Error al subir la imagen a Cloudinary:', uploadError);
+                return res.status(500).json({ msg: 'Error al actualizar la imagen' });
+            }
+        } else {
+            console.log('No se ha recibido ningún archivo.');
         }
 
         // Guardar los cambios
         await cajaPredefinida.save();
         res.status(200).json({ msg: 'Caja predefinida actualizada exitosamente', cajaPredefinida });
     } catch (error) {
-        console.error(error);
+        console.error('Error al actualizar la caja predefinida:', error);
         res.status(500).json({ msg: 'Error al actualizar la caja predefinida' });
     }
 };
