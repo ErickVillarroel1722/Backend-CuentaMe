@@ -117,3 +117,23 @@ export const listadoProductos = async (req, res) => {
         res.status(500).json({ msg: "Error al obtener los productos" });
     }
 };
+
+export const listarProductoId = async (req, res) => {
+    try {
+        const { id } = req.params; // Obtener el ID del producto de los parámetros de la solicitud
+
+        // Buscar el producto en la base de datos por el ID
+        const producto = await Product.findById(id);
+        
+        // Si el producto no se encuentra, devolver un error 404
+        if (!producto) {
+            return res.status(404).json({ msg: "Producto no encontrado" });
+        }
+
+        // Devolver el producto encontrado
+        res.status(200).json({ producto });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error al obtener el producto" });
+    }
+};
