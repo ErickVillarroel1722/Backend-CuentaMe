@@ -5,10 +5,10 @@ import cloudinary from "../services/cloudinary.js";
 // ** Crear Producto **
 export const crearProducto = async (req, res) => {
     try {
-        const { nombre, descripcion, precio } = req.body;
+        const { nombre, descripcion, precio, stock } = req.body;
         let imagenUrl = null;
 
-        // Verificar si ya existe un producto con el mismo nombre (puedes agregar más validaciones si es necesario)
+        // Verificar si ya existe un producto con el mismo nombre
         const productoExistente = await Product.findOne({ nombre });
         if (productoExistente) {
             return res.status(400).json({ msg: 'El producto con este nombre ya existe.' });
@@ -19,6 +19,7 @@ export const crearProducto = async (req, res) => {
             nombre,
             descripcion,
             precio,
+            stock,
             imagen: null, // Sin imagen al principio
         });
 
@@ -46,7 +47,7 @@ export const crearProducto = async (req, res) => {
         res.status(201).json({ msg: 'Producto creado exitosamente', producto: nuevoProducto });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error al crear producto' });
+        res.status(500).json({ msg: 'Error al crear producto', error });
     }
 };
 
