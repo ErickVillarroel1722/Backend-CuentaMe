@@ -1,4 +1,3 @@
-import cajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 import cloudinary from "../services/cloudinary.js";
 import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
 
@@ -23,6 +22,8 @@ export const crearCajaPredefinida = async (req, res) => {
             imagen: null, // Sin imagen al principio
         });
 
+        console.log(req.body);
+
         // Guardar la nueva caja en la base de datos para generar el _id
         await nuevaCajaPredefinida.save();
 
@@ -39,6 +40,7 @@ export const crearCajaPredefinida = async (req, res) => {
             // Actualizar la caja predefinida con la URL de la imagen
             nuevaCajaPredefinida.imagen = imagenUrl;
             await nuevaCajaPredefinida.save();  // Guardar nuevamente con la URL de la imagen
+            console.log(req.body);
         } else {
             return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
         }

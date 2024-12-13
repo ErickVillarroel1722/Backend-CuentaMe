@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario.">
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Modificación en la subida de cajas predefinidas.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/uploadService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/uploadService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +90,9 @@
       <workItem from="1733280228349" duration="1642000" />
       <workItem from="1733330266067" duration="591000" />
       <workItem from="1733377269755" duration="3180000" />
+      <workItem from="1733451385894" duration="618000" />
+      <workItem from="1733779646050" duration="2180000" />
+      <workItem from="1733851859945" duration="49000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -273,7 +278,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733238074359</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Cambio en el número de direcciones que puede poser un cliente y se han agregado más campos para identificar mejor a las direcciones">
+      <option name="closed" value="true" />
+      <created>1733451689131</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1733451689132</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,6 +321,8 @@
     <MESSAGE value="Eliminación de necesidad de OTP para el cambio de contraseña" />
     <MESSAGE value="Extensión de la funcionalidad de verificación del OTP para poder albergar tanto la activación de la cuenta usuario como el cambio de contraseña." />
     <MESSAGE value="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
+    <MESSAGE value="Cambio en el número de direcciones que puede poser un cliente y se han agregado más campos para identificar mejor a las direcciones" />
+    <MESSAGE value="Modificación en la subida de cajas predefinidas." />
+    <option name="LAST_COMMIT_MESSAGE" value="Modificación en la subida de cajas predefinidas." />
   </component>
 </project>
