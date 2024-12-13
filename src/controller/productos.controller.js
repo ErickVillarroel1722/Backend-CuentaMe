@@ -5,10 +5,10 @@ import cloudinary from "../services/cloudinary.js";
 // ** Crear Producto **
 export const crearProducto = async (req, res) => {
     try {
-        const { nombre, descripcion, precio } = req.body;
+        const { nombre, descripcion, precio, stock } = req.body;
         let imagenUrl = null;
 
-        // Verificar si ya existe un producto con el mismo nombre (puedes agregar más validaciones si es necesario)
+        // Verificar si ya existe un producto con el mismo nombre
         const productoExistente = await Product.findOne({ nombre });
         if (productoExistente) {
             return res.status(400).json({ msg: 'El producto con este nombre ya existe.' });
@@ -19,6 +19,7 @@ export const crearProducto = async (req, res) => {
             nombre,
             descripcion,
             precio,
+            stock,
             imagen: null, // Sin imagen al principio
         });
 
@@ -46,7 +47,7 @@ export const crearProducto = async (req, res) => {
         res.status(201).json({ msg: 'Producto creado exitosamente', producto: nuevoProducto });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error al crear producto' });
+        res.status(500).json({ msg: 'Error al crear producto', error });
     }
 };
 
@@ -118,15 +119,14 @@ export const listadoProductos = async (req, res) => {
     }
 };
 
-// ** Listar Producto por ID **
-export const listarProductoPorId = async (req, res) => {
+export const listarProductoId = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.params; // Obtener el ID del producto de los parámetros de la solicitud
 
-        // Buscar el producto por su ID
+        // Buscar el producto en la base de datos por el ID
         const producto = await Product.findById(id);
-
-        // Verificar si el producto existe
+        
+        // Si el producto no se encuentra, devolver un error 404
         if (!producto) {
             return res.status(404).json({ msg: "Producto no encontrado" });
         }
