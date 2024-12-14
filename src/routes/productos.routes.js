@@ -30,7 +30,7 @@ router.post('/crear_productos', verificarAutenticacion, upload.single('imagen'),
 // Esta ruta obtiene todos los productos almacenados en la base de datos.
 router.get('/lista_productos', listadoProductos);
 
-router.get('/lista_productos/:id', listadoProductos);
+router.get('/lista_productos/:id', listarProductoId);
 
 // ** Ruta para actualizar un producto **
 // Esta ruta permite actualizar la información de un producto existente. Usa la verificación de autenticación y subida de imagen
