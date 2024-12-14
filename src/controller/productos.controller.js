@@ -1,5 +1,4 @@
 import Product from '../database/models/Objects/Product.js';
-import jwt from "jsonwebtoken";
 import cloudinary from "../services/cloudinary.js";
 
 // ** Crear Producto **
@@ -112,7 +111,7 @@ export const eliminarProducto = async (req, res) => {
 export const listadoProductos = async (req, res) => {
     try {
         const productos = await Product.find();
-        res.status(200).json({ productos });
+        res.status(200).json(productos);
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Error al obtener los productos" });

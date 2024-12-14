@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Modificación en la subida de cajas predefinidas.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/caja_predefinida.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/uploadService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/uploadService.js" afterDir="false" />
-    </list>
+    <list default="true" id="0ac8909b-858a-444d-99ad-99534be74878" name="Changes" comment="Modificación en la visualización de productos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,6 +89,7 @@
       <workItem from="1733451385894" duration="618000" />
       <workItem from="1733779646050" duration="2180000" />
       <workItem from="1733851859945" duration="49000" />
+      <workItem from="1734132628180" duration="2075000" />
     </task>
     <task id="LOCAL-00001" summary="Reestrcuturación de Backend y reimplementación de arquitectura MVC">
       <option name="closed" value="true" />
@@ -286,7 +283,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733451689132</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Modificación en la visualización de productos">
+      <option name="closed" value="true" />
+      <created>1734133157511</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1734133157511</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,6 +328,7 @@
     <MESSAGE value="Cambio en la solicitud de nueva contraseña, entregando correo como parámetro de verificación de usuario." />
     <MESSAGE value="Cambio en el número de direcciones que puede poser un cliente y se han agregado más campos para identificar mejor a las direcciones" />
     <MESSAGE value="Modificación en la subida de cajas predefinidas." />
-    <option name="LAST_COMMIT_MESSAGE" value="Modificación en la subida de cajas predefinidas." />
+    <MESSAGE value="Modificación en la visualización de productos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modificación en la visualización de productos" />
   </component>
 </project>
