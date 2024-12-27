@@ -23,6 +23,8 @@ const usuarioSchema = new Schema({
   direccion: {
     type: String,
     required: true,
+    default: null,
+    unique: true 
   },
   historialCompras: [{
     type: mongoose.Schema.Types.ObjectId,
