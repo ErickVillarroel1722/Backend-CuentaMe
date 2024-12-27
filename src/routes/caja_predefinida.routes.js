@@ -21,16 +21,16 @@ import upload from '../middleware/uploadService.js';
 const router = express.Router();
 
 // Crear una nueva caja predefinida
-router.post('/crear', verificarAutenticacion, upload.single('image'), crearCajaPredefinida);
+router.post('/crear', verificarAutenticacion, upload.single('imagen'), crearCajaPredefinida);
 
 // Obtener todas las cajas predefinidas
-router.get('/listar', verificarAutenticacion, obtenerCajasPredefinidas);
+router.get('/listar', obtenerCajasPredefinidas);
 
 // Obtener información de una caja por ID
-router.get('/listar/:id', verificarAutenticacion, obtenerCajaPredefinidaPorId);
+router.get('/listar/:id', obtenerCajaPredefinidaPorId);
 
 // Actualizar una caja predefinida
-router.put('/actualizar/:id', verificarAutenticacion, upload.single('image'), actualizarCajaPredefinida);
+router.put('/actualizar/:id', verificarAutenticacion, upload.single('imagen'), actualizarCajaPredefinida);
 
 // Eliminar una caja predefinida
 router.delete('/eliminar/:id', verificarAutenticacion, eliminarCajaPredefinida);

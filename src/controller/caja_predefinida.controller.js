@@ -1,55 +1,82 @@
-import cajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
-import cloudinary from "../services/cloudinary.js";
-import CajaPredefinida from "../database/models/Objects/cajaPredefinida.js";
-
 // * Acciones para las cajas predefinidas *
+import CajaPredefinida from '../database/models/Objects/cajaPredefinida.js'; // Modelo de MongoDB
+import cloudinary from '../services/cloudinary.js'; // Configuración de Cloudinary
+import mongoose from 'mongoose';
+
 export const crearCajaPredefinida = async (req, res) => {
     try {
         const { nombre, descripcion, stock, precio } = req.body;
-        let imagenUrl = null;
+
+        // Mostrar el cuerpo de la solicitud
+        console.log('Request body:', req.body);
 
         // Verificar si ya existe una caja predefinida con el mismo nombre
-        const cajaExistente = await CajaPredefinida.findOne({ nombre });
+        let cajaExistente = await CajaPredefinida.findOne({ nombre });
+
         if (cajaExistente) {
+            console.warn('Caja predefinida con el mismo nombre ya existe:', cajaExistente);
             return res.status(400).json({ msg: 'La caja predefinida con este nombre ya existe.' });
         }
 
-        // Crear la nueva caja predefinida sin la imagen inicialmente
+        // Verificar si se recibió una imagen
+        if (!req.file) {
+            console.warn('No se recibió ninguna imagen en la solicitud');
+            return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
+        }
+
+        // Subir la imagen a Cloudinary antes de crear la caja
+        console.log('Subiendo imagen a Cloudinary...');
+        let uploadResponse;
+        try {
+            uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `cajas_predefinidas/${new mongoose.Types.ObjectId()}`, // Usamos un nuevo ID único
+                overwrite: true,
+            });
+        } catch (uploadError) {
+            console.error('Error al subir la imagen a Cloudinary:', uploadError);
+            return res.status(500).json({ msg: 'Error al subir la imagen a Cloudinary', error: uploadError.message });
+        }
+
+        console.log('Respuesta de Cloudinary:', uploadResponse);
+
+        // Crear la caja predefinida con la URL de la imagen
         const nuevaCajaPredefinida = new CajaPredefinida({
             nombre,
             descripcion,
             stock,
             precio,
-            imagen: null, // Sin imagen al principio
+            imagen: uploadResponse.secure_url, // Guardar la URL de la imagen en la caja
         });
 
-        // Guardar la nueva caja en la base de datos para generar el _id
+        // Guardar la caja predefinida en la base de datos
+        console.log('Guardando nueva caja predefinida en la base de datos...');
         await nuevaCajaPredefinida.save();
 
-        // Si se proporciona una imagen, subirla a Cloudinary
-        if (req.file) {
-            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-                public_id: `cajas_predefinidas/${nuevaCajaPredefinida._id}`,  // Usar el _id generado por MongoDB
-                overwrite: true,  // Sobrescribir si ya existe una imagen con ese nombre
-            });
+        console.log('Caja predefinida creada exitosamente:', nuevaCajaPredefinida);
 
-            // La URL de la imagen será la URL proporcionada por Cloudinary
-            imagenUrl = uploadResponse.secure_url;
+        // Responder con la caja predefinida y su imagen
+        return res.status(201).json({ msg: 'Caja predefinida creada exitosamente', cajaPredefinida: nuevaCajaPredefinida });
 
-            // Actualizar la caja predefinida con la URL de la imagen
-            nuevaCajaPredefinida.imagen = imagenUrl;
-            await nuevaCajaPredefinida.save();  // Guardar nuevamente con la URL de la imagen
-        } else {
-            return res.status(400).json({ msg: 'No se ha recibido ninguna imagen' });
+    } catch (error) {
+        // Manejar error de clave duplicada
+        if (error.code === 11000) {
+            console.warn('Error de clave duplicada detectado:', error.keyValue);
+            return res.status(400).json({ msg: 'Ya existe una caja predefinida con este nombre.' });
         }
 
-        // Responder con la caja predefinida creada y su imagen
-        res.status(201).json({ msg: 'Caja predefinida creada exitosamente', cajaPredefinida: nuevaCajaPredefinida });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: 'Error al crear la caja predefinida' });
+        // Mostrar todos los errores posibles en la consola
+        console.error('Error al crear o actualizar la caja predefinida:', error);
+        console.error('Detalle del error:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name,
+        });
+
+        // Responder al cliente con un mensaje de error
+        res.status(500).json({ msg: 'Error al crear o actualizar la caja predefinida', error: error.message });
     }
 };
+
 
 export const obtenerCajasPredefinidas = async (req, res) => {
     try {
@@ -64,6 +91,12 @@ export const obtenerCajasPredefinidas = async (req, res) => {
 export const actualizarCajaPredefinida = async (req, res) => {
     try {
         const { id } = req.params;
+
+        // Validar si el id es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'ID no válido' });
+        }
+
         const { nombre, descripcion, stock, precio } = req.body;
 
         // Verificar si la caja predefinida existe
@@ -80,19 +113,29 @@ export const actualizarCajaPredefinida = async (req, res) => {
 
         // Si hay una nueva imagen, actualizarla
         if (req.file) {
-            const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-                public_id: `cajas_predefinidas/${cajaPredefinida._id}`,
-                overwrite: true,
-            });
+            console.log('Archivo recibido:', req.file);
+            
+            try {
+                const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+                    public_id: `cajas_predefinidas/${cajaPredefinida._id}`,
+                    overwrite: true,
+                });
 
-            cajaPredefinida.imagen = uploadResponse.secure_url;
+                console.log('Imagen subida a Cloudinary:', uploadResponse);
+                cajaPredefinida.imagen = uploadResponse.secure_url;
+            } catch (uploadError) {
+                console.error('Error al subir la imagen a Cloudinary:', uploadError);
+                return res.status(500).json({ msg: 'Error al actualizar la imagen' });
+            }
+        } else {
+            console.log('No se ha recibido ningún archivo.');
         }
 
         // Guardar los cambios
         await cajaPredefinida.save();
         res.status(200).json({ msg: 'Caja predefinida actualizada exitosamente', cajaPredefinida });
     } catch (error) {
-        console.error(error);
+        console.error('Error al actualizar la caja predefinida:', error);
         res.status(500).json({ msg: 'Error al actualizar la caja predefinida' });
     }
 };
@@ -101,21 +144,25 @@ export const eliminarCajaPredefinida = async (req, res) => {
     try {
         const { id } = req.params;
 
+        // Validar si el id es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'ID no válido' });
+        }
+
         // Verificar si la caja predefinida existe
         const cajaPredefinida = await CajaPredefinida.findById(id);
         if (!cajaPredefinida) {
             return res.status(404).json({ msg: 'Caja predefinida no encontrada.' });
         }
 
-        // Eliminar la caja predefinida
-        await cajaPredefinida.remove();
+        // Eliminar la caja predefinida usando deleteOne
+        await CajaPredefinida.deleteOne({ _id: id }); // Cambiar remove() por deleteOne()
         res.status(200).json({ msg: 'Caja predefinida eliminada exitosamente' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Error al eliminar la caja predefinida' });
     }
 };
-
 
 // Obtener información de una caja según su ID
 export const obtenerCajaPredefinidaPorId = async (req, res) => {
